@@ -19,6 +19,7 @@ public class PlayerMove : MonoBehaviour
     public float jumpForce = 5f; // 점프 힘 설정
     public float rotSpeed = 300f; // 회전속도
     public float moveSpeed = 10.0f; // 이동속도
+    public float skRange = 5; // 스킬 범위 변수
 
     void Awake()
     {
