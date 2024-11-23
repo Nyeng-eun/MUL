@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    private bool Is_On_corutine = false; // 코루틴 실행여부 변수 선언 (공격)
+    public bool Is_On_corutine = false; // 코루틴 실행여부 변수 선언 (공격)
     private bool isGround; // 땅에 닿았는지 확인하는 변수 (점프)
 
     private Animator _animator; // 애니메이터 변수 선언
