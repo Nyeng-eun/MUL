@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
@@ -122,7 +123,7 @@ public class PlayerMove : MonoBehaviour
     IEnumerator Attack() // 공격 코루틴 (시간 딜레이 후 공격)
     {
         Is_On_corutine = true; // 코루틴 실행 중, 공격 중
-        yield return new WaitForSeconds(1f); // 1초 대기
+        yield return new WaitForSeconds(5f); // 5초 대기
         Is_On_corutine = false; // 코루틴 종료, 공격 종료
     }
 }
