@@ -46,6 +46,7 @@ public class PlayerMove : MonoBehaviour
             if (Input.GetKey(KeyCode.LeftShift) && v > 0.9f && h < 0.1f) // 달리기 (Shift + W 키(수직 입력값))
             {
                 v = 2f;
+                Debug.Log("달리기 성공");
             }
 
             else if (Input.GetKeyDown(KeyCode.Space) && isGround) // 점프 (Space 키)
@@ -53,22 +54,33 @@ public class PlayerMove : MonoBehaviour
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
                 // 점프, ForceMode.Impulse : 순간적인 힘을 가함
                 // rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange); -> 점프, ForceMode.VelocityChange : 순간적인 속도 변화를 가함
+                Debug.Log("점프 성공");
             }
 
             else if (Input.GetKeyDown(KeyCode.E)) // 상호 작용 (E 키)
             {
                 Debug.DrawRay(transform.position, transform.forward * rayLength, Color.green);
                 // Debug.DrawRay(시작점, 방향 * 길이, 색상) : 레이를 그리는 함수
+                Debug.Log("상호작용 E키 눌림");
 
                 if (Physics.Raycast(transform.position, transform.forward, out hit, rayLength, LayerMask.GetMask("Interact")))
-                    // Raycast(시작점, 방향, out hit, 길이, LayerMask.GetMask("Interact")) : 레이를 쏘는 함수
-                    // LayerMask.GetMask("Interact") : Interact 레이어에만 충돌하도록 설정
+                // Raycast(시작점, 방향, out hit, 길이, LayerMask.GetMask("Interact")) : 레이를 쏘는 함수
+                // LayerMask.GetMask("Interact") : Interact 레이어에만 충돌하도록 설정
+                {
                     scanObject = hit.collider.gameObject; // 충돌한 오브젝트를 scanObject로 할당
+                    Debug.Log("Interact 오브젝트 충돌 확인");
+                }
                 else
+                {
                     scanObject = null; // scanObject을 null로 초기화
+                    Debug.Log("Interact 오브젝트 없음, null 초기화");
+                }
 
                 if (scanObject) // 상호작용 오브젝트가 존재한다면
+                {
                     GameManager.instance.Interact(); // GameManager 스크립트의 Interact 함수 실행
+                    Debug.Log("GameManager 상호작용 함수 실행 완료");
+                }
             }
 
             else if (Input.GetKeyDown(KeyCode.Q) && !Is_On_corutine) // 공격 (Q 키)
@@ -94,11 +106,13 @@ public class PlayerMove : MonoBehaviour
         if (coll.gameObject.CompareTag("Monster")) // 모든 몬스터 (잡몹, 칼리다, 마녀)
         {
             life--; // 생명 1 감소
+            Debug.Log("몬스터와 충돌, 생명 1 감소 {life}");
         }
 
         else if (coll.gameObject.CompareTag("Meteor")) // 메테오
         {
             life -= 2; // 생명 2 감소
+            Debug.Log("몬스터와 충돌, 생명 2 감소 {life}");
         }
 
         if (coll.gameObject.CompareTag("Ground")) // 땅에 닿았을 때
@@ -124,6 +138,7 @@ public class PlayerMove : MonoBehaviour
     IEnumerator Attack() // 공격 코루틴 (시간 딜레이 후 공격)
     {
         Is_On_corutine = true; // 코루틴 실행 중, 공격 중
+        Debug.Log("공격 코루틴 실행중");
         yield return new WaitForSeconds(5f); // 5초 대기
         Is_On_corutine = false; // 코루틴 종료, 공격 종료
     }
