@@ -41,12 +41,6 @@ public class MonsterCtrl : MonoBehaviour
                 attackRange = 6.0f;
                 attackSpeed = 7.0f;
                 break;
-
-            case 2:
-                e_Speed = 3.0f;
-                attackRange = 7.0f;
-                attackSpeed = 9.0f;
-                break;
         }
     }
 
