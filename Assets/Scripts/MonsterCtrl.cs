@@ -5,65 +5,104 @@ using UnityEngine.Rendering.Universal;
 
 public class MonsterCtrl : MonoBehaviour
 {
-    public int e_Type; // 몬스터 속성
+    public int e_Type;
+    private PlayerMove _playerMove;
     private GameObject player; // 플레이어
     private Animator M_ani; // 몬스터 애니메이션
-    private float e_Speed = 3.0f; // 기본 속도
-    private float attackRange = 6.0f; // 돌진 거리
-    private float attackSpeed = 7.0f; // 돌진 속도
-    private float pushPower = 5.0f; // 밀쳐지는 힘
+    private int hp;
+    private float e_Speed; // 기본 속도
+    private float attackRange; // 돌진 거리
+    private float attackSpeed; // 돌진 속도
+    private float pushPower; // 밀쳐지는 힘
 
     private DecalProjector projector;
 
     private bool isDash = false;
     private bool isCooldown = false;
-    public bool isDelay = false;
     private Rigidbody rb;
 
     void Awake()
     {
         player = GameObject.FindWithTag("Player"); // 플레이어 찾기
+        _playerMove = player.GetComponent<PlayerMove>();
         M_ani = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        projector = GetComponent<DecalProjector>();
 
+        switch (e_Type)
+        {
+            case 0:
+                e_Speed = 3.5f;
+                hp = 1;
+                break;
+
+            case 1:
+                e_Speed = 4.0f;
+                hp = 3;
+                attackRange = 6.0f;
+                attackSpeed = 7.0f;
+                break;
+
+            case 2:
+                e_Speed = 3.0f;
+                attackRange = 7.0f;
+                attackSpeed = 9.0f;
+                break;
+        }
     }
 
     void Update()
     {
-        Vector3 moveDir = (player.transform.position - transform.position).normalized; // 방향 설정
-        float Distance = Vector3.Distance(transform.position, player.transform.position); // 몬스터와 플레이어와의 거리
-
-        Vector3 targetPosition = transform.position;
-        targetPosition.y = player.transform.position.y;  // Y축 고정
-
-        switch (e_Type)
+        if (_playerMove.Is_On_corutine && Vector3.Distance(transform.position, _playerMove.transform.position) < _playerMove.skRange)
         {
-            case 0: // 까마귀 (플레이어를 쫓아다님)
-                transform.Translate(moveDir * e_Speed * Time.deltaTime, Space.World);
-                transform.LookAt(player.transform.position);
-                break;
+            switch (e_Type)
+            {
+                case 0:
+                    transform.Translate(transform.forward * e_Speed * Time.deltaTime, Space.Self);
+                    break;
 
-            case 1: // 늑대 (플레이어에게 돌진)
-                moveDir.y = 0f; // y축 고정
-                if (Distance <= attackRange && !isDash && !isCooldown)
-                {
-                    isDash = true;
-                    StartCoroutine(Dash(moveDir));
-
-                }
-                else if (!isDash)
-                {
-                    transform.Translate(moveDir * e_Speed * Time.deltaTime, Space.World);
-
-                    if (moveDir != Vector3.zero)
+                case 1:
+                    if (hp > 1)
                     {
-                        Quaternion targetRotation = Quaternion.LookRotation(moveDir);
-                        transform.rotation = targetRotation;
+                        // 늑대 스턴 애니메이션
                     }
-                    M_ani.SetBool("w_Attack", false);
-                }
-                break;
+                    else
+                    {
+                        // 안녕히계세요! 여러분! 시전
+                    }
+                    break;
+            }
+        }
+        else
+        {
+            Vector3 moveDir = (player.transform.position - transform.position).normalized; // 방향 설정
+            float Distance = Vector3.Distance(transform.position, player.transform.position); // 몬스터와 플레이어와의 거리
+            switch (e_Type)
+            {
+                case 0: // 까마귀 (플레이어를 쫓아다님)
+                    transform.Translate(moveDir * e_Speed * Time.deltaTime, Space.World);
+                    transform.LookAt(player.transform.position);
+                    break;
+
+                case 1: // 늑대 (플레이어에게 돌진)
+                    moveDir.y = 0f; // y축 고정
+                    if (Distance <= attackRange && !isDash && !isCooldown)
+                    {
+                        isDash = true;
+                        StartCoroutine(Dash(moveDir));
+                    }
+                    else if (!isDash)
+                    {
+                        transform.Translate(moveDir * e_Speed * Time.deltaTime, Space.World);
+
+                        if (moveDir != Vector3.zero)
+                        {
+                            Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+                            transform.rotation = targetRotation;
+                        }
+                        M_ani.SetBool("w_Attack", false);
+                    }
+                    break;
+            }
         }
     }
     void OnCollisionEnter(Collision coll)
@@ -80,7 +119,7 @@ public class MonsterCtrl : MonoBehaviour
         isDash = false; // 돌진 가능
         isCooldown = true; // 쿨다운 시작
 
-        yield return new WaitForSeconds(3.0f); // 쿨다운 시간
+        yield return new WaitForSeconds(1.0f); // 쿨다운 시간
         isCooldown = false; // 쿨다운 종료
     }
 
@@ -94,8 +133,9 @@ public class MonsterCtrl : MonoBehaviour
 
         M_ani.SetBool("w_Attack", true);
         rb.AddForce(moveDir * attackSpeed, ForceMode.Impulse); // AddForce()로 돌진
-        transform.rotation = Quaternion.LookRotation(moveDir);
+        transform.rotation = Quaternion.LookRotation(transform.forward);
 
         yield return StartCoroutine(StopDash()); // StopDash() 시작
     }
 }
+
