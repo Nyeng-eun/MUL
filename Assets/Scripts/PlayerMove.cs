@@ -5,8 +5,10 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public bool Is_On_corutine = false; // 코루틴 실행여부 변수 선언 (공격)
-    private bool isGround; // 땅에 닿았는지 확인하는 변수 (점프)
+    public bool Is_On_corutine = false; // 코루틴 실행여부 변수 선언 (공격 딜레이 추가하기위해)
+    private bool isGround; // 땅에 닿았는지 확인하는 변수 (닌자맛 쿠키 전용 스킬인 2단 점프 방지용)
+    private bool is_Lion_Start = false; // 사자 스킬 발동 조건 확인 변수 (발판 밟았는지 확인하기위해)
+    public bool Is_LionSK_corutine = false; // 사자후 스킬 딜레이용 코루틴 실행여부 변수 (사자후 스킬 연달아 사용하는걸 방지하기 위한 딜레이)
 
     private Animator _animator; // 애니메이터 변수 선언
     private Rigidbody rb; // 물리엔진을 사용하기 위한 변수 (점프)
@@ -88,6 +90,11 @@ public class PlayerMove : MonoBehaviour
                 StartCoroutine(Attack()); // 코루틴 실행, 시간 딜레이 후 공격, 공격 중에는 다시 공격할 수 없음
             }
 
+            else if (Input.GetKeyDown(KeyCode.R) && is_Lion_Start) // 사자 스킬 (R키 -> 특정 씬에서만 사용 가능)
+            {
+                StartCoroutine(LionPower()); // 코루틴 실행, 시간 딜레이 후 스킬 시전, 스킬 사용 중에는 다시 공격할 수 없음
+            }
+
             Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h); 
             // 이동 방향 벡터 moveDir 계산
             transform.Translate(moveDir * moveSpeed * Time.deltaTime, Space.Self);
@@ -122,6 +129,15 @@ public class PlayerMove : MonoBehaviour
             // isGround 값에 따라 점프 애니메이션 실행
             // 점프 애니메이션 실행 X
         }
+
+        if (coll.gameObject.CompareTag("LionSkill")) // 사자 스킬 발동 구간
+        {
+            for (int i = 0; i < 2; i++) // 1번 밟ㅂㅇ으면 실행되게
+		        {
+                is_Lion_Start = true; // 사자 스킬 시작 해라 그 뭐 시기
+            }
+            is_Lion_Start = false; // 더 밟으면 그냥 false
+        }
     }
 
     void OnCollisionExit(Collision collision) // 충돌이 끝났을 때
@@ -141,5 +157,13 @@ public class PlayerMove : MonoBehaviour
         Debug.Log("공격 코루틴 실행중");
         yield return new WaitForSeconds(5f); // 5초 대기
         Is_On_corutine = false; // 코루틴 종료, 공격 종료
+    }
+
+    IEnumerator LionPower() // 사자후 딜레이 추가용 코루틴 함수
+    {
+        Is_LionSK_corutine = true; // 코루틴 실행 중, 스킬 시전 중
+        Debug.Log("사자 스킬 코루틴 실행중");
+        yield return new WaitForSeconds(5f); // 5초 대기
+        Is_LionSK_corutine = false; // 코루틴 종료, 스킬 종료
     }
 }
