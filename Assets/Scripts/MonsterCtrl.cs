@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class MonsterCtrl : MonoBehaviour
 {
-    public int e_Type;
+    public int e_Type; // 0 = 까마귀 1 = 늑대 2 = 골렘
     private PlayerMove _playerMove;
     private GameObject player; // 플레이어
     private Animator M_ani; // 몬스터 애니메이션
@@ -41,6 +41,12 @@ public class MonsterCtrl : MonoBehaviour
                 attackRange = 6.0f;
                 attackSpeed = 7.0f;
                 break;
+
+            case 2:
+                e_Speed = 3.0f;
+                attackRange = 7.0f;
+                attackSpeed = 9.0f;
+                break;
         }
     }
 
@@ -64,6 +70,9 @@ public class MonsterCtrl : MonoBehaviour
                         // 안녕히계세요! 여러분! 시전
                     }
                     break;
+
+                case 2:
+                    return;
             }
         }
         else
@@ -82,10 +91,11 @@ public class MonsterCtrl : MonoBehaviour
                     if (Distance <= attackRange && !isDash && !isCooldown)
                     {
                         isDash = true;
-                        StartCoroutine(Dash(moveDir));
+                        StartCoroutine(w_Dash(moveDir));
                     }
                     else if (!isDash)
                     {
+                        M_ani.SetBool("w_Walk", true);
                         transform.Translate(moveDir * e_Speed * Time.deltaTime, Space.World);
 
                         if (moveDir != Vector3.zero)
@@ -93,9 +103,30 @@ public class MonsterCtrl : MonoBehaviour
                             Quaternion targetRotation = Quaternion.LookRotation(moveDir);
                             transform.rotation = targetRotation;
                         }
-                        M_ani.SetBool("w_Attack", false);
                     }
                     break;
+
+                case 2: // 골렘
+                    moveDir.y = 0f; // y축 고정
+                    if (Distance <= attackRange && !isDash && !isCooldown)
+                    {
+                        isDash = true;
+                        StartCoroutine(g_Dash(moveDir));
+
+                    }
+                    else if (!isDash)
+                    {
+                        M_ani.SetBool("g_Walk", true);
+                        transform.Translate(moveDir * e_Speed * Time.deltaTime, Space.World);
+
+                        if (moveDir != Vector3.zero)
+                        {
+                            Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+                            transform.rotation = targetRotation;
+                        }
+                    }
+                    break;
+
             }
         }
     }
@@ -117,17 +148,33 @@ public class MonsterCtrl : MonoBehaviour
         isCooldown = false; // 쿨다운 종료
     }
 
-    IEnumerator Dash(Vector3 moveDir)
+    IEnumerator w_Dash(Vector3 moveDir) // 늑대 돌진
     {
-        M_ani.SetBool("w_idle", true);
+        M_ani.SetBool("w_Walk", false);
         projector.fadeFactor = 1.0f; // 공격 방향 표시
         yield return new WaitForSeconds(0.5f);
-        M_ani.SetBool("w_idle", false);
+
         projector.fadeFactor = 0f; // 공격 방향 표시 x
 
         M_ani.SetBool("w_Attack", true);
         rb.AddForce(moveDir * attackSpeed, ForceMode.Impulse); // AddForce()로 돌진
         transform.rotation = Quaternion.LookRotation(transform.forward);
+        M_ani.SetBool("w_Attack", false);
+
+        yield return StartCoroutine(StopDash()); // StopDash() 시작
+    }
+
+    IEnumerator g_Dash(Vector3 moveDir) // 골렘 돌진
+    {
+        M_ani.SetBool("g_Walk", false);
+        projector.fadeFactor = 1.0f; // 공격 방향 표시
+        yield return new WaitForSeconds(3f);
+        projector.fadeFactor = 0f; // 공격 방향 표시 x
+
+        M_ani.SetBool("g_Attack", true);
+        rb.AddForce(moveDir * attackSpeed, ForceMode.Impulse); // AddForce()로 돌진
+        transform.rotation = Quaternion.LookRotation(transform.forward);
+        M_ani.SetBool("g_Attack", false);
 
         yield return StartCoroutine(StopDash()); // StopDash() 시작
     }
