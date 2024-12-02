@@ -263,9 +263,10 @@ GameObject:
   m_Component:
   - component: {fileID: 7818987813549317930}
   - component: {fileID: 2121691812678463386}
+  - component: {fileID: 5761707995145906824}
   m_Layer: 0
   m_Name: CrowMonster
-  m_TagString: Untagged
+  m_TagString: Monster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -280,7 +281,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.16317591, y: -0.33682406, z: 0.05939116, w: 0.92541665}
   m_LocalPosition: {x: -0.5, y: 1, z: 6}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 0.2}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7772911091056717482}
@@ -308,6 +309,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5761707995145906824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867776958763354093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51a66d943391a142bd31b849cc65c6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  e_Type: 0
 --- !u!1 &2290267354889300233
 GameObject:
   m_ObjectHideFlags: 0

@@ -17,9 +17,9 @@ public class PlayerMove : MonoBehaviour
     private RaycastHit hit; // RaycastHit (충돌체크) 선언
 
     public int life = 4; // 생명 4개 (보스전때는 6개정도)
-    private float rayLength = 3f; // Ray 길이 설정
+    private float rayLength = 5f; // Ray 길이 설정
     public float jumpForce = 5f; // 점프 힘 설정
-    public float rotSpeed = 300f; // 회전속도
+    public float rotSpeed = 30f; // 회전속도
     public float moveSpeed = 10.0f; // 이동속도
     public float skRange = 5; // 스킬 범위 변수
 
@@ -31,7 +31,7 @@ public class PlayerMove : MonoBehaviour
 
     void Update()
     {
-        if (Input.anyKey) // 입력이 들어왔을 때
+        // if (Input.anyKey) // 입력이 들어왔을 때
         {
             transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * rotSpeed * Time.deltaTime);
             // 마우스 회전으로 플레이어 회전
@@ -99,8 +99,8 @@ public class PlayerMove : MonoBehaviour
             // 이동 방향 벡터 moveDir 계산
             transform.Translate(moveDir * moveSpeed * Time.deltaTime, Space.Self);
 
-            _animator.SetFloat("p_V", v);
-            _animator.SetFloat("p_H", h);
+            _animator.SetFloat("v", v);
+            _animator.SetFloat("h", h);
             // mixamo에서 좌우 움직임 애니메이션, 앞뒤 움직임 애니메이션 찾기
             // animation Blend Tree
         }
@@ -125,7 +125,7 @@ public class PlayerMove : MonoBehaviour
         if (coll.gameObject.CompareTag("Ground")) // 땅에 닿았을 때
         {
             isGround = true; // 땅에 닿음 (true), 점프 가능
-            _animator.SetBool("Jump", isGround); 
+            _animator.SetBool("isJumped", isGround); 
             // isGround 값에 따라 점프 애니메이션 실행
             // 점프 애니메이션 실행 X
         }
