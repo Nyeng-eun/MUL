@@ -264,6 +264,7 @@ GameObject:
   - component: {fileID: 7818987813549317930}
   - component: {fileID: 2121691812678463386}
   - component: {fileID: 5761707995145906824}
+  - component: {fileID: 5041302663218398123}
   m_Layer: 0
   m_Name: CrowMonster
   m_TagString: Monster
@@ -279,15 +280,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1867776958763354093}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.16317591, y: -0.33682406, z: 0.05939116, w: 0.92541665}
-  m_LocalPosition: {x: -0.5, y: 1, z: 6}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7772911091056717482}
   - {fileID: 5149620815611014138}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 20, y: -40, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &2121691812678463386
 Animator:
   serializedVersion: 5
@@ -301,7 +302,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: de6168b563c8c564c914195f5f7f4563, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -322,6 +323,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   e_Type: 0
+--- !u!65 &5041302663218398123
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867776958763354093}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 4, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2290267354889300233
 GameObject:
   m_ObjectHideFlags: 0

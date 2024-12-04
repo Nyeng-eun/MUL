@@ -13,7 +13,7 @@ public class MonsterCtrl : MonoBehaviour
     private float e_Speed; // 기본 속도
     private float attackRange; // 돌진 거리
     private float attackSpeed; // 돌진 속도
-    private float pushPower; // 밀쳐지는 힘
+    private float pushPower = 2f; // 밀쳐지는 힘
 
     private DecalProjector projector;
 
@@ -77,7 +77,7 @@ public class MonsterCtrl : MonoBehaviour
         }
         else
         {
-            Vector3 moveDir = (player.transform.position - transform.position).normalized; // 방향 설정
+            Vector3 moveDir = (player.transform.position + Vector3.up - transform.position).normalized; // 방향 설정
             float Distance = Vector3.Distance(transform.position, player.transform.position); // 몬스터와 플레이어와의 거리
             switch (e_Type)
             {

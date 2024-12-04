@@ -1762,15 +1762,15 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7460814702566472429}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.10452846, y: 0, z: 0, w: 0.9945219}
-  m_LocalPosition: {x: 0, y: 1, z: 6}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 642473434939398463}
   - {fileID: 1641230356571381417}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 12, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &605056032700116914
 Animator:
   serializedVersion: 5
@@ -1784,7 +1784,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: d513fc9cee92fff44982e9eaaaa1c8ff, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_WarningMessage: 
@@ -1823,7 +1823,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7460814702566472429}
   serializedVersion: 4
-  m_Mass: 10
+  m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1858,8 +1858,8 @@ MonoBehaviour:
   Is_LionSK_corutine: 0
   life: 4
   jumpForce: 5
-  rotSpeed: 300
-  moveSpeed: 10
+  rotSpeed: 250
+  moveSpeed: 5
   skRange: 5
 --- !u!1 &7562643988945606076
 GameObject:

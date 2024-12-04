@@ -7,7 +7,7 @@ public class PlayerCtrl : MonoBehaviour
     private CharacterController _controller; // 캐릭터 컨트롤러
     private Animator _animator; // 애니메이터
 
-    private float rotSpeed = 30f; // 회전 속도
+    private float rotSpeed = 250f; // 회전 속도
     private float moveSpeed = 5f;  // 이동 속도
     private float jumpHeight = 1f; // 점프 높이
     private Vector3 moveDir = Vector3.zero; // 이동 방향
@@ -22,6 +22,7 @@ public class PlayerCtrl : MonoBehaviour
     {
         transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * rotSpeed * Time.smoothDeltaTime);
 
+        _animator.SetBool("isJumped", _controller.isGrounded);
         if (_controller.isGrounded)
         {
             float h = Input.GetAxis("Horizontal");
@@ -48,6 +49,9 @@ public class PlayerCtrl : MonoBehaviour
             moveDir.z = v;
             moveDir = _controller.transform.TransformDirection(moveDir);
             moveDir *= moveSpeed;
+
+            _animator.SetFloat("v", v);
+            _animator.SetFloat("h", h);
         }
         else
         {

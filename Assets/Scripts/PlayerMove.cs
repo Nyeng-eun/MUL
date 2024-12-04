@@ -19,7 +19,7 @@ public class PlayerMove : MonoBehaviour
     private float rayLength = 5f; // Ray 길이 설정
     public float jumpForce = 5f; // 점프 힘 설정
     public float rotSpeed = 30f; // 회전속도
-    public float moveSpeed = 10.0f; // 이동속도
+    public float moveSpeed = 5f; // 이동속도
     public float skRange = 5; // 스킬 범위 변수
 
     void Awake()
@@ -112,6 +112,7 @@ public class PlayerMove : MonoBehaviour
         if (coll.gameObject.CompareTag("Monster")) // 모든 몬스터 (잡몹, 칼리다, 마녀)
         {
             life--; // 생명 1 감소
+            _animator.SetTrigger("Attacked");
             Debug.Log("몬스터와 충돌, 생명 1 감소 {life}");
         }
 
