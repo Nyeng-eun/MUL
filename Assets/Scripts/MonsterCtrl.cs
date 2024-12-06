@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Rendering.Universal;
 
 public class MonsterCtrl : MonoBehaviour
@@ -13,7 +13,7 @@ public class MonsterCtrl : MonoBehaviour
     private float e_Speed; // 기본 속도
     private float attackRange; // 돌진 거리
     private float attackSpeed; // 돌진 속도
-    private float pushPower = 2f; // 밀쳐지는 힘
+    private float pushPower; // 밀쳐지는 힘
 
     private DecalProjector projector;
 
@@ -21,12 +21,18 @@ public class MonsterCtrl : MonoBehaviour
     private bool isCooldown = false;
     private Rigidbody rb;
 
+    public NavMeshAgent positionAgent;
+    private float maxium = float.MinValue;
+    private Transform target;
+    private bool hasReachedT = false;
+
     void Awake()
     {
         player = GameObject.FindWithTag("Player"); // 플레이어 찾기
         _playerMove = player.GetComponent<PlayerMove>();
         M_ani = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        positionAgent = GetComponent<NavMeshAgent>();
 
         switch (e_Type)
         {
@@ -47,6 +53,9 @@ public class MonsterCtrl : MonoBehaviour
                 attackRange = 7.0f;
                 attackSpeed = 9.0f;
                 break;
+
+            case 3:
+                return;
         }
     }
 
@@ -73,11 +82,14 @@ public class MonsterCtrl : MonoBehaviour
 
                 case 2:
                     return;
+
+                case 3:
+                    return;
             }
         }
         else
         {
-            Vector3 moveDir = (player.transform.position + Vector3.up - transform.position).normalized; // 방향 설정
+            Vector3 moveDir = (player.transform.position - transform.position).normalized; // 방향 설정
             float Distance = Vector3.Distance(transform.position, player.transform.position); // 몬스터와 플레이어와의 거리
             switch (e_Type)
             {
@@ -127,6 +139,22 @@ public class MonsterCtrl : MonoBehaviour
                     }
                     break;
 
+                case 3: // 미로 선인장
+                    if (positionAgent.remainingDistance <= positionAgent.stoppingDistance)
+                    // remainingDistance: 현재 위치에서 목표 지점까지 남아 있는 거리
+                    // stoppingDistance: 목표 지점에 도달했을 때 정지해야 하는 거리
+                    {
+                        hasReachedT = true; // 가야할 위치에 도달
+                    }
+
+                    if (hasReachedT || target == null) // 새로운 위치 찾는 조건
+                    {
+                        hasReachedT = false; // 초기화
+                        FindNewPosition(); // 새로운 위치 찾기
+                    }
+
+                    break;
+
             }
         }
     }
@@ -137,9 +165,34 @@ public class MonsterCtrl : MonoBehaviour
             player.GetComponent<Rigidbody>().AddForce(transform.forward * pushPower, ForceMode.Impulse); // 플레이어 밀어내기
         }
     }
+
+    void FindNewPosition()
+    {
+        GameObject[] sameTag = GameObject.FindGameObjectsWithTag(this.tag);
+
+        maxium = float.MinValue; // 최소값을 설정해 최대값 찾기
+
+        foreach (GameObject position in sameTag)
+        {
+            if (position.GetInstanceID() == gameObject.GetInstanceID()) // 자기자신 배제
+            {
+                continue;
+            }
+            float distance = Vector3.Distance(transform.position, position.transform.position); // 자기자신과 position의 거리
+
+            if (distance > maxium)
+            {
+                maxium = distance;
+                target = position.transform;
+            }
+        }
+
+        positionAgent.SetDestination(target.position); // 타겟 위치로 가기
+    }
+
     IEnumerator StopDash()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(3.0f);
         rb.velocity = Vector3.zero;
         isDash = false; // 돌진 가능
         isCooldown = true; // 쿨다운 시작
@@ -179,4 +232,5 @@ public class MonsterCtrl : MonoBehaviour
         yield return StartCoroutine(StopDash()); // StopDash() 시작
     }
 }
+
 
