@@ -5,11 +5,11 @@ using UnityEngine.Rendering.Universal;
 
 public class MonsterCtrl : MonoBehaviour
 {
-    public int e_Type; // 0 = 까마귀 1 = 늑대 2 = 골렘
+    public int e_Type; // 0 = 까마귀 1 = 늑대 2 = 골렘 3 = 선인장
     private PlayerMove _playerMove;
     private GameObject player; // 플레이어
     private Animator M_ani; // 몬스터 애니메이션
-    private int hp;
+    private int hp; // 체력
     private float e_Speed; // 기본 속도
     private float attackRange; // 돌진 거리
     private float attackSpeed; // 돌진 속도
