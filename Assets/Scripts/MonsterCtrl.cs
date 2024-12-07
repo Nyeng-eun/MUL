@@ -147,9 +147,9 @@ public class MonsterCtrl : MonoBehaviour
                         hasReachedT = true; // 가야할 위치에 도달
                     }
 
-                    if (hasReachedT || target == null) // 새로운 위치 찾는 조건
+                    if (hasReachedT || target == null) // hasReachedT == true 이거나 target == null 일 때
                     {
-                        hasReachedT = false; // 초기화
+                        hasReachedT = false;
                         FindNewPosition(); // 새로운 위치 찾기
                     }
 
