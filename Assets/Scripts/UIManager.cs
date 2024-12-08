@@ -8,30 +8,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button GameStart;
     [SerializeField] private Button GameSetting;
     [SerializeField] private Button GameExit;
-    private bool isEnter = false;
-    private RectTransform rectTr = null;
-
-    void Update()
-    {
-        if (isEnter && rectTr)
-        {
-            rectTr.localScale = Vector3.Lerp(rectTr.localScale, new Vector3(1.5f, 1.5f, 1f), Time.smoothDeltaTime);
-        }
-        else if (rectTr)
-        {
-            rectTr.localScale = Vector3.Lerp(rectTr.localScale, Vector3.one, Time.smoothDeltaTime);
-            if (rectTr.localScale == Vector3.one) rectTr = null;
-        }
-    }
 
     public void OnButtonEnter(RectTransform tr)
     {
-        isEnter = true;
-        rectTr = tr;
+        tr.localScale = Vector3.Lerp(tr.localScale, Vector3.one * 1.2f, 2 * Time.smoothDeltaTime);
     }
 
     public void OnButtonExit(RectTransform tr)
     {
-        isEnter = false;
+        tr.localScale = Vector3.Lerp(tr.localScale, Vector3.one, 2 * Time.smoothDeltaTime);
     }
 }
