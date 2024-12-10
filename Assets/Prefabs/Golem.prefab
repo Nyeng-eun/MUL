@@ -570,6 +570,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4956010321505820939}
   - component: {fileID: 2606881688201253146}
+  - component: {fileID: 1059724306590953874}
   m_Layer: 0
   m_Name: Golem
   m_TagString: Untagged
@@ -615,6 +616,30 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1059724306590953874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3031556136042341783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0777d029ed3dffa4692f417d4aba19ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: 948f789d085b56c4e9cd1fd4fc318803, type: 2}
+  m_DrawDistance: 1000
+  m_FadeScale: 0.9
+  m_StartAngleFade: 180
+  m_EndAngleFade: 180
+  m_UVScale: {x: 1, y: 1}
+  m_UVBias: {x: 0, y: 0}
+  m_DecalLayerMask: 1
+  m_ScaleMode: 0
+  m_Offset: {x: 0, y: 0, z: 4}
+  m_Size: {x: 0.4, y: 0.4, z: 8}
+  m_FadeFactor: 1
 --- !u!1 &3191208314539848520
 GameObject:
   m_ObjectHideFlags: 0
