@@ -13,7 +13,7 @@ public class MonsterCtrl : MonoBehaviour
     private float e_Speed; // 기본 속도
     private float attackRange; // 돌진 거리
     private float attackSpeed; // 돌진 속도
-    private float pushPower; // 밀쳐지는 힘
+    private float pushPower = 0f; // 밀쳐지는 힘
 
     private DecalProjector projector;
 
@@ -39,6 +39,7 @@ public class MonsterCtrl : MonoBehaviour
             case 0:
                 e_Speed = 3.5f;
                 hp = 1;
+                pushPower = 3.0f;
                 break;
 
             case 1:
@@ -55,7 +56,8 @@ public class MonsterCtrl : MonoBehaviour
                 break;
 
             case 3:
-                return;
+                pushPower = 3.0f;
+                break;
         }
     }
 
