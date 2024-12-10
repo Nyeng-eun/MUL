@@ -6,6 +6,13 @@ TagManager:
   tags:
   - Ground
   - Monster
+  - Position1
+  - Position2
+  - Position3
+  - Position4
+  - Position5
+  - Position6
+  - Position7
   layers:
   - Default
   - TransparentFX

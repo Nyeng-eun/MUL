@@ -117,6 +117,13 @@ public class PlayerMove : MonoBehaviour
             Debug.Log("몬스터와 충돌, 생명 1 감소 {life}");
         }
 
+        else if (coll.gameObject.CompareTag("Position1") || coll.gameObject.CompareTag("Position2") || coll.gameObject.CompareTag("Position3") || coll.gameObject.CompareTag("Position4") || coll.gameObject.CompareTag("Position5") || coll.gameObject.CompareTag("Position6") || coll.gameObject.CompareTag("Position7")) // 미로 몬스터
+        {
+            life--; // 생명 1 감소
+            _animator.SetTrigger("Attacked");
+            Debug.Log("몬스터와 충돌, 생명 1 감소 {life}");
+        }
+
         else if (coll.gameObject.CompareTag("Meteor")) // 메테오
         {
             life -= 2; // 생명 2 감소
