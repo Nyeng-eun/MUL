@@ -17,6 +17,8 @@ public class WitchCtrl : MonoBehaviour
     Vector3 originalPosition = new Vector3(0, 0.1f, 0);
     Vector3 targetPosition = new Vector3(0, 8.0f, 0);
 
+    public GameManager gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +34,7 @@ public class WitchCtrl : MonoBehaviour
         switch (b_Type)
         {
             case 0:
+                gameManager.isCrowattacked = true;
                 if (hp <= 0)
                 {
                     StartCoroutine(phase_Change());
@@ -72,7 +75,9 @@ public class WitchCtrl : MonoBehaviour
     IEnumerator phase_Change()
     {
         Unbeatable = true;
+        gameManager.isCrowattacked = false;
         hp = 30;
+
         //B_ani.SetBool("공중에 떠있는 거.. 나중에 바꿀 겁니다. 안심하십쇼.", true);
 
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f) // 목표 도달까지 기다리기 // 마녀 x,z 축 위치도 바꿀 예정
@@ -124,8 +129,10 @@ public class WitchCtrl : MonoBehaviour
         }
         //B_ani.SetBool("공중에 떠있는 거.. 나중에 바꿀 겁니다. 안심하십쇼.", false);
 
-        // 까마귀 공격 넣을 부분
+        gameManager.isCrowattacked = true;
+        yield return new WaitForSeconds(10.0f);
 
+        gameManager.isCrowattacked = false;
         //B_ani.SetBool("공중에 떠있는 거.. 나중에 바꿀 겁니다. 안심하십쇼.", true);
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f) // 위로 마녀 올라감
         {
