@@ -9228,6 +9228,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targerTr: {fileID: 1859675420}
+  lookat: {x: 0, y: 0, z: 0}
   dist: 8
   height: 3
   damping: 5
