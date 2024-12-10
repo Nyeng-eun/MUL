@@ -8,11 +8,11 @@ public class CameraCtrl : MonoBehaviour
     public Vector3 lookat;
     public float dist; // 카메라 와 플레이어 간의 거리
     public float height; //  카메라와 플레이어 간의 높이
-    private float damping; // 반응 속도
+    public float damping; // 반응 속도
 
     void Start()
     {
-        damping = 2f;
+        damping = 5f;
     }
 
     void LateUpdate() // 모든 Update 함수가 실행 된 후 작동

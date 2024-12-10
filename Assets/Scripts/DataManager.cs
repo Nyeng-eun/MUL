@@ -71,6 +71,11 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    public bool isExist()
+    {
+        return File.Exists(path + fileName);
+    }
+
     public void SaveCheckpoint(Vector3 checkpointPosition, int playerLife, string checkpointID)
     // 체크포인트 저장 함수
     // 체크포인트 위치와 플레이어 목숨, 체크포인트 ID를 받아서 저장함

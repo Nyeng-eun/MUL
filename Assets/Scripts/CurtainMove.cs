@@ -18,7 +18,7 @@ public class NewBehaviourScript : MonoBehaviour
         }
         else
         {
-            // SceneManager.LoadScene("Next Scene");
+            SceneManager.LoadScene("MainRoad_Scarecrow");
         }
     }
 }

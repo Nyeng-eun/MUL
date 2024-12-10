@@ -18,8 +18,8 @@ public class PlayerMove : MonoBehaviour
     public int life = 4; // 생명 4개 (보스전때는 6개정도)
     private float rayLength = 5f; // Ray 길이 설정
     public float jumpForce = 5f; // 점프 힘 설정
-    public float rotSpeed = 30f; // 회전속도
-    public float moveSpeed = 5f; // 이동속도
+    public float rotSpeed = 250f; // 회전속도
+    public float moveSpeed = 3.5f; // 이동속도
     public float skRange = 5; // 스킬 범위 변수
 
     void Awake()
@@ -33,6 +33,7 @@ public class PlayerMove : MonoBehaviour
         // if (Input.anyKey) // 입력이 들어왔을 때
         {
             transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * rotSpeed * Time.deltaTime);
+            transform.rotation = (transform.rotation.y > 360f) ? Quaternion.identity : transform.rotation;
             // 마우스 회전으로 플레이어 회전
             // Vector3.up : y축 기준, rotSpeed : 회전 속도, Time.deltaTime : 시간에 따른 부드러운 회전
 
@@ -79,7 +80,7 @@ public class PlayerMove : MonoBehaviour
 
                 if (scanObject) // 상호작용 오브젝트가 존재한다면
                 {
-                    GameManager.instance.Interact(); // GameManager 스크립트의 Interact 함수 실행
+                    Utils.interact(scanObject.name); // interact 함수 실행
                     Debug.Log("GameManager 상호작용 함수 실행 완료");
                 }
             }
