@@ -8,6 +8,14 @@ public class GameManager : MonoBehaviour // 게임 매니저, 게임의 전반적인 기능을 
     [SerializeField] public PlayerMove _playerCtrl = null;
     [SerializeField] public bool isFirst = false;
 
+    public Transform[] spawnPoints;//적 배열 및 생성 위치 배열 변수 선언
+    public GameObject b_crow; // 마녀 까마귀
+
+    public float maxSpawnDelay;
+    public float couSpawnDelay;  //적 생성 딜레이 변수 선언
+
+    public bool isCrowattacked = false; // 마녀 까마귀 소환
+
     void Awake()
     {
         // 싱글턴 패턴(하나의 클래스만 존재하도록 중복 방지)
@@ -32,5 +40,26 @@ public class GameManager : MonoBehaviour // 게임 매니저, 게임의 전반적인 기능을 
     private void Interact() // 상호작용 함수
     {
 
+    }
+
+    private void Update()
+    {
+        couSpawnDelay += Time.deltaTime; //지금 흐르고 있는 시간
+
+        if (isCrowattacked)
+        {
+            if (couSpawnDelay > maxSpawnDelay)
+            {
+                SpawnCrow();
+                maxSpawnDelay = Random.Range(0.5f, 3f); //정해진 범위 내의 랜덤 숫자 반환 (float, int)
+                couSpawnDelay = 0; //적 생성 후 딜레이 변수 0으로 초기화
+            }
+        }
+    }
+
+    void SpawnCrow() // 마녀 까마귀 소환 함수
+    {
+        int ranPoint = Random.Range(0, 3); // 랜덤 소환
+        Instantiate(b_crow, spawnPoints[ranPoint].position, Quaternion.identity);
     }
 }
