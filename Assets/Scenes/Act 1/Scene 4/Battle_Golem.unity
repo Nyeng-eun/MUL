@@ -9455,13 +9455,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1059724306590953874, guid: 60e196e327a9b2f49849028980c7032d, type: 3}
+      propertyPath: m_Size.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059724306590953874, guid: 60e196e327a9b2f49849028980c7032d, type: 3}
+      propertyPath: m_FadeFactor
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3031556136042341783, guid: 60e196e327a9b2f49849028980c7032d, type: 3}
       propertyPath: m_Name
       value: Golem
       objectReference: {fileID: 0}
     - target: {fileID: 4956010321505820939, guid: 60e196e327a9b2f49849028980c7032d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4956010321505820939, guid: 60e196e327a9b2f49849028980c7032d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4956010321505820939, guid: 60e196e327a9b2f49849028980c7032d, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4956010321505820939, guid: 60e196e327a9b2f49849028980c7032d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.4987502
+      value: -21.21
       objectReference: {fileID: 0}
     - target: {fileID: 4956010321505820939, guid: 60e196e327a9b2f49849028980c7032d, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9469,7 +9489,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4956010321505820939, guid: 60e196e327a9b2f49849028980c7032d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 39.195896
+      value: 3.4
       objectReference: {fileID: 0}
     - target: {fileID: 4956010321505820939, guid: 60e196e327a9b2f49849028980c7032d, type: 3}
       propertyPath: m_LocalRotation.w
