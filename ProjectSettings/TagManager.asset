@@ -14,6 +14,8 @@ TagManager:
   - Position6
   - Position7
   - SpawnPoint
+  - LionSkill
+  - Meteor
   layers:
   - Default
   - TransparentFX

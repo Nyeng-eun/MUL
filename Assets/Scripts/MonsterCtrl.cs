@@ -41,15 +41,15 @@ public class MonsterCtrl : MonoBehaviour
                 e_Speed = 4.0f;
                 hp = 3;
                 attackRange = 6.0f;
-                attackSpeed = 7.0f;
-                pushPower = attackSpeed;
+                attackSpeed = 12.0f;
+                pushPower = 2.0f;
                 break;
 
             case 2:
-                e_Speed = 3.0f;
-                attackRange = 7.0f;
-                attackSpeed = 9.0f;
-                pushPower = attackSpeed;
+                e_Speed = 6.0f;
+                attackRange = 28.0f;
+                attackSpeed = 25.0f;
+                pushPower = 2.0f;
                 break;
         }
     }
@@ -172,7 +172,7 @@ public class MonsterCtrl : MonoBehaviour
     {
         M_ani.SetBool("g_Walk", false);
         projector.fadeFactor = 1.0f; // 공격 방향 표시
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(1.0f);
         projector.fadeFactor = 0f; // 공격 방향 표시 x
 
         M_ani.SetBool("g_Attack", true);
