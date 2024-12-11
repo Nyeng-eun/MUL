@@ -4,174 +4,174 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    public bool Is_On_corutine = false; // ÄÚ·çÆ¾ ½ÇÇà¿©ºÎ º¯¼ö ¼±¾ğ (°ø°İ µô·¹ÀÌ Ãß°¡ÇÏ±âÀ§ÇØ)
-    private bool isGround; // ¶¥¿¡ ´ê¾Ò´ÂÁö È®ÀÎÇÏ´Â º¯¼ö (´ÑÀÚ¸À ÄíÅ° Àü¿ë ½ºÅ³ÀÎ 2´Ü Á¡ÇÁ ¹æÁö¿ë)
-    private bool is_Lion_Start = false; // »çÀÚ ½ºÅ³ ¹ßµ¿ Á¶°Ç È®ÀÎ º¯¼ö (¹ßÆÇ ¹â¾Ò´ÂÁö È®ÀÎÇÏ±âÀ§ÇØ)
-    public bool Is_LionSK_corutine = false; // »çÀÚÈÄ ½ºÅ³ µô·¹ÀÌ¿ë ÄÚ·çÆ¾ ½ÇÇà¿©ºÎ º¯¼ö (»çÀÚÈÄ ½ºÅ³ ¿¬´Ş¾Æ »ç¿ëÇÏ´Â°É ¹æÁöÇÏ±â À§ÇÑ µô·¹ÀÌ)
+    public bool Is_On_corutine = false; // ì½”ë£¨í‹´ ì‹¤í–‰ì—¬ë¶€ ë³€ìˆ˜ ì„ ì–¸ (ê³µê²© ë”œë ˆì´ ì¶”ê°€í•˜ê¸°ìœ„í•´)
+    private bool isGround; // ë•…ì— ë‹¿ì•˜ëŠ”ì§€ í™•ì¸í•˜ëŠ” ë³€ìˆ˜ (ë‹Œìë§› ì¿ í‚¤ ì „ìš© ìŠ¤í‚¬ì¸ 2ë‹¨ ì í”„ ë°©ì§€ìš©)
+    private bool is_Lion_Start = false; // ì‚¬ì ìŠ¤í‚¬ ë°œë™ ì¡°ê±´ í™•ì¸ ë³€ìˆ˜ (ë°œíŒ ë°Ÿì•˜ëŠ”ì§€ í™•ì¸í•˜ê¸°ìœ„í•´)
+    public bool Is_LionSK_corutine = false; // ì‚¬ìí›„ ìŠ¤í‚¬ ë”œë ˆì´ìš© ì½”ë£¨í‹´ ì‹¤í–‰ì—¬ë¶€ ë³€ìˆ˜ (ì‚¬ìí›„ ìŠ¤í‚¬ ì—°ë‹¬ì•„ ì‚¬ìš©í•˜ëŠ”ê±¸ ë°©ì§€í•˜ê¸° ìœ„í•œ ë”œë ˆì´)
 
-    private Animator _animator; // ¾Ö´Ï¸ŞÀÌÅÍ º¯¼ö ¼±¾ğ
-    private Rigidbody rb; // ¹°¸®¿£ÁøÀ» »ç¿ëÇÏ±â À§ÇÑ º¯¼ö (Á¡ÇÁ)
-    private GameObject scanObject = null; // »óÈ£ÀÛ¿ë ¿ÀºêÁ§Æ®
+    private Animator _animator; // ì• ë‹ˆë©”ì´í„° ë³€ìˆ˜ ì„ ì–¸
+    private Rigidbody rb; // ë¬¼ë¦¬ì—”ì§„ì„ ì‚¬ìš©í•˜ê¸° ìœ„í•œ ë³€ìˆ˜ (ì í”„)
+    private GameObject scanObject = null; // ìƒí˜¸ì‘ìš© ì˜¤ë¸Œì íŠ¸
 
-    private RaycastHit hit; // RaycastHit (Ãæµ¹Ã¼Å©) ¼±¾ğ
+    private RaycastHit hit; // RaycastHit (ì¶©ëŒì²´í¬) ì„ ì–¸
 
-    public int life = 4; // »ı¸í 4°³ (º¸½ºÀü¶§´Â 6°³Á¤µµ)
-    private float rayLength = 5f; // Ray ±æÀÌ ¼³Á¤
-    public float jumpForce = 5f; // Á¡ÇÁ Èû ¼³Á¤
-    public float rotSpeed = 250f; // È¸Àü¼Óµµ
-    public float moveSpeed = 3.5f; // ÀÌµ¿¼Óµµ
-    public float skRange = 5; // ½ºÅ³ ¹üÀ§ º¯¼ö
+    public int life = 4; // ìƒëª… 4ê°œ (ë³´ìŠ¤ì „ë•ŒëŠ” 6ê°œì •ë„)
+    private float rayLength = 5f; // Ray ê¸¸ì´ ì„¤ì •
+    public float jumpForce = 5f; // ì í”„ í˜ ì„¤ì •
+    public float rotSpeed = 250f; // íšŒì „ì†ë„
+    public float moveSpeed = 3.5f; // ì´ë™ì†ë„
+    public float skRange = 5; // ìŠ¤í‚¬ ë²”ìœ„ ë³€ìˆ˜
 
     void Awake()
     {
-        _animator = GetComponent<Animator>(); // Animator ÄÄÆ÷³ÍÆ® °¡Á®¿À±â
-        rb = GetComponent<Rigidbody>(); // Rigidbody ÄÄÆ÷³ÍÆ® °¡Á®¿À±â
+        _animator = GetComponent<Animator>(); // Animator ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ê¸°
+        rb = GetComponent<Rigidbody>(); // Rigidbody ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ê¸°
     }
 
     void Update()
     {
-        // if (Input.anyKey) // ÀÔ·ÂÀÌ µé¾î¿ÔÀ» ¶§
+        // if (Input.anyKey) // ì…ë ¥ì´ ë“¤ì–´ì™”ì„ ë•Œ
         {
             transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * rotSpeed * Time.deltaTime);
             transform.rotation = (transform.rotation.y > 360f) ? Quaternion.identity : transform.rotation;
-            // ¸¶¿ì½º È¸ÀüÀ¸·Î ÇÃ·¹ÀÌ¾î È¸Àü
-            // Vector3.up : yÃà ±âÁØ, rotSpeed : È¸Àü ¼Óµµ, Time.deltaTime : ½Ã°£¿¡ µû¸¥ ºÎµå·¯¿î È¸Àü
+            // ë§ˆìš°ìŠ¤ íšŒì „ìœ¼ë¡œ í”Œë ˆì´ì–´ íšŒì „
+            // Vector3.up : yì¶• ê¸°ì¤€, rotSpeed : íšŒì „ ì†ë„, Time.deltaTime : ì‹œê°„ì— ë”°ë¥¸ ë¶€ë“œëŸ¬ìš´ íšŒì „
 
-            float h = Input.GetAxis("Horizontal"); // ¼öÆò ÀÔ·Â°ª
-            float v = Input.GetAxis("Vertical"); // ¼öÁ÷ ÀÔ·Â°ª
+            float h = Input.GetAxis("Horizontal"); // ìˆ˜í‰ ì…ë ¥ê°’
+            float v = Input.GetAxis("Vertical"); // ìˆ˜ì§ ì…ë ¥ê°’
 
             h *= Mathf.Sqrt(1f - Mathf.Pow(v, 2) / 2f);
             v *= Mathf.Sqrt(1f - Mathf.Pow(h, 2) / 2f);
-            // ´ë°¢¼± ÀÌµ¿ ¼Óµµ º¸Á¤
-            // ¼öÆò ÀÔ·Â°ª°ú ¼öÁ÷ ÀÔ·Â°ªÀ» ÀÌ¿ëÇÏ¿© ´ë°¢¼± ÀÌµ¿ ¼Óµµ º¸Á¤, ´ë°¢¼± ÀÌµ¿ ½Ã ¼Óµµ°¡ »¡¶óÁö´Â °ÍÀ» ¹æÁö
+            // ëŒ€ê°ì„  ì´ë™ ì†ë„ ë³´ì •
+            // ìˆ˜í‰ ì…ë ¥ê°’ê³¼ ìˆ˜ì§ ì…ë ¥ê°’ì„ ì´ìš©í•˜ì—¬ ëŒ€ê°ì„  ì´ë™ ì†ë„ ë³´ì •, ëŒ€ê°ì„  ì´ë™ ì‹œ ì†ë„ê°€ ë¹¨ë¼ì§€ëŠ” ê²ƒì„ ë°©ì§€
 
-            if (Input.GetKey(KeyCode.LeftShift) && v > 0.9f && h < 0.1f) // ´Ş¸®±â (Shift + W Å°(¼öÁ÷ ÀÔ·Â°ª))
+            if (Input.GetKey(KeyCode.LeftShift) && v > 0.9f && h < 0.1f) // ë‹¬ë¦¬ê¸° (Shift + W í‚¤(ìˆ˜ì§ ì…ë ¥ê°’))
             {
                 v = 2f;
-                Debug.Log("´Ş¸®±â ¼º°ø");
+                Debug.Log("ë‹¬ë¦¬ê¸° ì„±ê³µ");
             }
 
-            else if (Input.GetKeyDown(KeyCode.Space) && isGround) // Á¡ÇÁ (Space Å°)
+            else if (Input.GetKeyDown(KeyCode.Space) && isGround) // ì í”„ (Space í‚¤)
             {
                 rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-                // Á¡ÇÁ, ForceMode.Impulse : ¼ø°£ÀûÀÎ ÈûÀ» °¡ÇÔ
-                // rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange); -> Á¡ÇÁ, ForceMode.VelocityChange : ¼ø°£ÀûÀÎ ¼Óµµ º¯È­¸¦ °¡ÇÔ
-                Debug.Log("Á¡ÇÁ ¼º°ø");
+                // ì í”„, ForceMode.Impulse : ìˆœê°„ì ì¸ í˜ì„ ê°€í•¨
+                // rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange); -> ì í”„, ForceMode.VelocityChange : ìˆœê°„ì ì¸ ì†ë„ ë³€í™”ë¥¼ ê°€í•¨
+                Debug.Log("ì í”„ ì„±ê³µ");
             }
 
-            else if (Input.GetKeyDown(KeyCode.E)) // »óÈ£ ÀÛ¿ë (E Å°)
+            else if (Input.GetKeyDown(KeyCode.E)) // ìƒí˜¸ ì‘ìš© (E í‚¤)
             {
                 Debug.DrawRay(transform.position, transform.forward * rayLength, Color.green);
-                // Debug.DrawRay(½ÃÀÛÁ¡, ¹æÇâ * ±æÀÌ, »ö»ó) : ·¹ÀÌ¸¦ ±×¸®´Â ÇÔ¼ö
-                Debug.Log("»óÈ£ÀÛ¿ë EÅ° ´­¸²");
+                // Debug.DrawRay(ì‹œì‘ì , ë°©í–¥ * ê¸¸ì´, ìƒ‰ìƒ) : ë ˆì´ë¥¼ ê·¸ë¦¬ëŠ” í•¨ìˆ˜
+                Debug.Log("ìƒí˜¸ì‘ìš© Eí‚¤ ëˆŒë¦¼");
 
                 if (Physics.Raycast(transform.position, transform.forward, out hit, rayLength, LayerMask.GetMask("Interact")))
-                // Raycast(½ÃÀÛÁ¡, ¹æÇâ, out hit, ±æÀÌ, LayerMask.GetMask("Interact")) : ·¹ÀÌ¸¦ ½î´Â ÇÔ¼ö
-                // LayerMask.GetMask("Interact") : Interact ·¹ÀÌ¾î¿¡¸¸ Ãæµ¹ÇÏµµ·Ï ¼³Á¤
+                // Raycast(ì‹œì‘ì , ë°©í–¥, out hit, ê¸¸ì´, LayerMask.GetMask("Interact")) : ë ˆì´ë¥¼ ì˜ëŠ” í•¨ìˆ˜
+                // LayerMask.GetMask("Interact") : Interact ë ˆì´ì–´ì—ë§Œ ì¶©ëŒí•˜ë„ë¡ ì„¤ì •
                 {
-                    scanObject = hit.collider.gameObject; // Ãæµ¹ÇÑ ¿ÀºêÁ§Æ®¸¦ scanObject·Î ÇÒ´ç
-                    Debug.Log("Interact ¿ÀºêÁ§Æ® Ãæµ¹ È®ÀÎ");
+                    scanObject = hit.collider.gameObject; // ì¶©ëŒí•œ ì˜¤ë¸Œì íŠ¸ë¥¼ scanObjectë¡œ í• ë‹¹
+                    Debug.Log("Interact ì˜¤ë¸Œì íŠ¸ ì¶©ëŒ í™•ì¸");
                 }
                 else
                 {
-                    scanObject = null; // scanObjectÀ» null·Î ÃÊ±âÈ­
-                    Debug.Log("Interact ¿ÀºêÁ§Æ® ¾øÀ½, null ÃÊ±âÈ­");
+                    scanObject = null; // scanObjectì„ nullë¡œ ì´ˆê¸°í™”
+                    Debug.Log("Interact ì˜¤ë¸Œì íŠ¸ ì—†ìŒ, null ì´ˆê¸°í™”");
                 }
 
-                if (scanObject) // »óÈ£ÀÛ¿ë ¿ÀºêÁ§Æ®°¡ Á¸ÀçÇÑ´Ù¸é
+                if (scanObject) // ìƒí˜¸ì‘ìš© ì˜¤ë¸Œì íŠ¸ê°€ ì¡´ì¬í•œë‹¤ë©´
                 {
-                    Utils.interact(scanObject.name); // interact ÇÔ¼ö ½ÇÇà
-                    Debug.Log("GameManager »óÈ£ÀÛ¿ë ÇÔ¼ö ½ÇÇà ¿Ï·á");
+                    Utils.interact(scanObject.name); // interact í•¨ìˆ˜ ì‹¤í–‰
+                    Debug.Log("GameManager ìƒí˜¸ì‘ìš© í•¨ìˆ˜ ì‹¤í–‰ ì™„ë£Œ");
                 }
             }
 
-            else if (Input.GetKeyDown(KeyCode.Q) && !Is_On_corutine) // °ø°İ (Q Å°)
+            else if (Input.GetKeyDown(KeyCode.Q) && !Is_On_corutine) // ê³µê²© (Q í‚¤)
             {
-                StartCoroutine(Attack()); // ÄÚ·çÆ¾ ½ÇÇà, ½Ã°£ µô·¹ÀÌ ÈÄ °ø°İ, °ø°İ Áß¿¡´Â ´Ù½Ã °ø°İÇÒ ¼ö ¾øÀ½
+                StartCoroutine(Attack()); // ì½”ë£¨í‹´ ì‹¤í–‰, ì‹œê°„ ë”œë ˆì´ í›„ ê³µê²©, ê³µê²© ì¤‘ì—ëŠ” ë‹¤ì‹œ ê³µê²©í•  ìˆ˜ ì—†ìŒ
             }
 
-            else if (Input.GetKeyDown(KeyCode.R) && is_Lion_Start) // »çÀÚ ½ºÅ³ (RÅ° -> Æ¯Á¤ ¾À¿¡¼­¸¸ »ç¿ë °¡´É)
+            else if (Input.GetKeyDown(KeyCode.R) && is_Lion_Start) // ì‚¬ì ìŠ¤í‚¬ (Rí‚¤ -> íŠ¹ì • ì”¬ì—ì„œë§Œ ì‚¬ìš© ê°€ëŠ¥)
             {
-                StartCoroutine(LionPower()); // ÄÚ·çÆ¾ ½ÇÇà, ½Ã°£ µô·¹ÀÌ ÈÄ ½ºÅ³ ½ÃÀü, ½ºÅ³ »ç¿ë Áß¿¡´Â ´Ù½Ã °ø°İÇÒ ¼ö ¾øÀ½
+                StartCoroutine(LionPower()); // ì½”ë£¨í‹´ ì‹¤í–‰, ì‹œê°„ ë”œë ˆì´ í›„ ìŠ¤í‚¬ ì‹œì „, ìŠ¤í‚¬ ì‚¬ìš© ì¤‘ì—ëŠ” ë‹¤ì‹œ ê³µê²©í•  ìˆ˜ ì—†ìŒ
             }
 
             Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h); 
-            // ÀÌµ¿ ¹æÇâ º¤ÅÍ moveDir °è»ê
+            // ì´ë™ ë°©í–¥ ë²¡í„° moveDir ê³„ì‚°
             transform.Translate(moveDir * moveSpeed * Time.deltaTime, Space.Self);
 
             _animator.SetFloat("v", v);
             _animator.SetFloat("h", h);
-            // mixamo¿¡¼­ ÁÂ¿ì ¿òÁ÷ÀÓ ¾Ö´Ï¸ŞÀÌ¼Ç, ¾ÕµÚ ¿òÁ÷ÀÓ ¾Ö´Ï¸ŞÀÌ¼Ç Ã£±â
+            // mixamoì—ì„œ ì¢Œìš° ì›€ì§ì„ ì• ë‹ˆë©”ì´ì…˜, ì•ë’¤ ì›€ì§ì„ ì• ë‹ˆë©”ì´ì…˜ ì°¾ê¸°
             // animation Blend Tree
         }
     }
 
     void OnCollisionEnter(Collision coll)
-    // OnCollisionEnter : Ãæµ¹ÀÌ ½ÃÀÛµÇ¾úÀ» ¶§, OnCollisionStay : Ãæµ¹ ÁßÀÏ ¶§, OnCollisionExit : Ãæµ¹ÀÌ ³¡³µÀ» ¶§
-    // Collider°¡ Ãæµ¹ÇßÀ» ¶§ È£ÃâµÇ´Â ÇÔ¼ö, Ãæµ¹ÇÑ »ó´ë¹æÀÇ Collider°¡ ÀÎÀÚ·Î Àü´ŞµÊ
+    // OnCollisionEnter : ì¶©ëŒì´ ì‹œì‘ë˜ì—ˆì„ ë•Œ, OnCollisionStay : ì¶©ëŒ ì¤‘ì¼ ë•Œ, OnCollisionExit : ì¶©ëŒì´ ëë‚¬ì„ ë•Œ
+    // Colliderê°€ ì¶©ëŒí–ˆì„ ë•Œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜, ì¶©ëŒí•œ ìƒëŒ€ë°©ì˜ Colliderê°€ ì¸ìë¡œ ì „ë‹¬ë¨
     {
-        if (coll.gameObject.CompareTag("Monster")) // ¸ğµç ¸ó½ºÅÍ (Àâ¸÷, Ä®¸®´Ù, ¸¶³à)
+        if (coll.gameObject.CompareTag("Monster")) // ëª¨ë“  ëª¬ìŠ¤í„° (ì¡ëª¹, ì¹¼ë¦¬ë‹¤, ë§ˆë…€)
         {
-            life--; // »ı¸í 1 °¨¼Ò
+            life--; // ìƒëª… 1 ê°ì†Œ
             _animator.SetTrigger("Attacked");
-            Debug.Log("¸ó½ºÅÍ¿Í Ãæµ¹, »ı¸í 1 °¨¼Ò {life}");
+            Debug.Log("ëª¬ìŠ¤í„°ì™€ ì¶©ëŒ, ìƒëª… 1 ê°ì†Œ {life}");
         }
 
-        else if (coll.gameObject.CompareTag("Position1") || coll.gameObject.CompareTag("Position2") || coll.gameObject.CompareTag("Position3") || coll.gameObject.CompareTag("Position4") || coll.gameObject.CompareTag("Position5") || coll.gameObject.CompareTag("Position6") || coll.gameObject.CompareTag("Position7")) // ¹Ì·Î ¸ó½ºÅÍ
+        else if (coll.gameObject.CompareTag("Position1") || coll.gameObject.CompareTag("Position2") || coll.gameObject.CompareTag("Position3") || coll.gameObject.CompareTag("Position4") || coll.gameObject.CompareTag("Position5") || coll.gameObject.CompareTag("Position6") || coll.gameObject.CompareTag("Position7")) // ë¯¸ë¡œ ëª¬ìŠ¤í„°
         {
-            life--; // »ı¸í 1 °¨¼Ò
+            life--; // ìƒëª… 1 ê°ì†Œ
             _animator.SetTrigger("Attacked");
-            Debug.Log("¸ó½ºÅÍ¿Í Ãæµ¹, »ı¸í 1 °¨¼Ò {life}");
+            Debug.Log("ëª¬ìŠ¤í„°ì™€ ì¶©ëŒ, ìƒëª… 1 ê°ì†Œ {life}");
         }
 
-        else if (coll.gameObject.CompareTag("Meteor")) // ¸ŞÅ×¿À
+        else if (coll.gameObject.CompareTag("Meteor")) // ë©”í…Œì˜¤
         {
-            life -= 2; // »ı¸í 2 °¨¼Ò
-            Debug.Log("¸ó½ºÅÍ¿Í Ãæµ¹, »ı¸í 2 °¨¼Ò {life}");
+            life -= 2; // ìƒëª… 2 ê°ì†Œ
+            Debug.Log("ëª¬ìŠ¤í„°ì™€ ì¶©ëŒ, ìƒëª… 2 ê°ì†Œ {life}");
         }
 
-        if (coll.gameObject.CompareTag("Ground")) // ¶¥¿¡ ´ê¾ÒÀ» ¶§
+        if (coll.gameObject.CompareTag("Ground")) // ë•…ì— ë‹¿ì•˜ì„ ë•Œ
         {
-            isGround = true; // ¶¥¿¡ ´êÀ½ (true), Á¡ÇÁ °¡´É
+            isGround = true; // ë•…ì— ë‹¿ìŒ (true), ì í”„ ê°€ëŠ¥
             _animator.SetBool("isJumped", isGround); 
-            // isGround °ª¿¡ µû¶ó Á¡ÇÁ ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
-            // Á¡ÇÁ ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà X
+            // isGround ê°’ì— ë”°ë¼ ì í”„ ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
+            // ì í”„ ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰ X
         }
 
-        if (coll.gameObject.CompareTag("LionSkill")) // »çÀÚ ½ºÅ³ ¹ßµ¿ ±¸°£
+        if (coll.gameObject.CompareTag("LionSkill")) // ì‚¬ì ìŠ¤í‚¬ ë°œë™ êµ¬ê°„
         {
-            for (int i = 0; i < 2; i++) // 1¹ø ¹â¤²¤·À¸¸é ½ÇÇàµÇ°Ô
+            for (int i = 0; i < 2; i++) // 1ë²ˆ ë°Ÿã…‚ã…‡ìœ¼ë©´ ì‹¤í–‰ë˜ê²Œ
 		        {
-                is_Lion_Start = true; // »çÀÚ ½ºÅ³ ½ÃÀÛ ÇØ¶ó ±× ¹¹ ½Ã±â
+                is_Lion_Start = true; // ì‚¬ì ìŠ¤í‚¬ ì‹œì‘ í•´ë¼ ê·¸ ë­ ì‹œê¸°
             }
-            is_Lion_Start = false; // ´õ ¹âÀ¸¸é ±×³É false
+            is_Lion_Start = false; // ë” ë°Ÿìœ¼ë©´ ê·¸ëƒ¥ false
         }
     }
 
-    void OnCollisionExit(Collision collision) // Ãæµ¹ÀÌ ³¡³µÀ» ¶§
+    void OnCollisionExit(Collision collision) // ì¶©ëŒì´ ëë‚¬ì„ ë•Œ
     {
-        if (collision.gameObject.CompareTag("Ground")) // Ãæµ¹ÇÑ »ó´ë ÅÂ±×°¡ Ground¶ó¸é, ¶¥¿¡¼­ ¶³¾îÁø »óÅÂ
+        if (collision.gameObject.CompareTag("Ground")) // ì¶©ëŒí•œ ìƒëŒ€ íƒœê·¸ê°€ Groundë¼ë©´, ë•…ì—ì„œ ë–¨ì–´ì§„ ìƒíƒœ
         {
-            isGround = false; // ¶¥¿¡¼­ ¶³¾îÁü (false), Á¡ÇÁ ºÒ°¡´É
+            isGround = false; // ë•…ì—ì„œ ë–¨ì–´ì§ (false), ì í”„ ë¶ˆê°€ëŠ¥
             _animator.SetBool("Jump", isGround); 
-            // isGround °ª¿¡ µû¶ó Á¡ÇÁ ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
-            // Á¡ÇÁ ¾Ö´Ï¸ŞÀÌ¼Ç ½ÇÇà
+            // isGround ê°’ì— ë”°ë¼ ì í”„ ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
+            // ì í”„ ì• ë‹ˆë©”ì´ì…˜ ì‹¤í–‰
         }
     }
 
-    IEnumerator Attack() // °ø°İ ÄÚ·çÆ¾ (½Ã°£ µô·¹ÀÌ ÈÄ °ø°İ)
+    IEnumerator Attack() // ê³µê²© ì½”ë£¨í‹´ (ì‹œê°„ ë”œë ˆì´ í›„ ê³µê²©)
     {
-        Is_On_corutine = true; // ÄÚ·çÆ¾ ½ÇÇà Áß, °ø°İ Áß
-        Debug.Log("°ø°İ ÄÚ·çÆ¾ ½ÇÇàÁß");
-        yield return new WaitForSeconds(5f); // 5ÃÊ ´ë±â
-        Is_On_corutine = false; // ÄÚ·çÆ¾ Á¾·á, °ø°İ Á¾·á
+        Is_On_corutine = true; // ì½”ë£¨í‹´ ì‹¤í–‰ ì¤‘, ê³µê²© ì¤‘
+        Debug.Log("ê³µê²© ì½”ë£¨í‹´ ì‹¤í–‰ì¤‘");
+        yield return new WaitForSeconds(5f); // 5ì´ˆ ëŒ€ê¸°
+        Is_On_corutine = false; // ì½”ë£¨í‹´ ì¢…ë£Œ, ê³µê²© ì¢…ë£Œ
     }
 
-    IEnumerator LionPower() // »çÀÚÈÄ µô·¹ÀÌ Ãß°¡¿ë ÄÚ·çÆ¾ ÇÔ¼ö
+    IEnumerator LionPower() // ì‚¬ìí›„ ë”œë ˆì´ ì¶”ê°€ìš© ì½”ë£¨í‹´ í•¨ìˆ˜
     {
-        Is_LionSK_corutine = true; // ÄÚ·çÆ¾ ½ÇÇà Áß, ½ºÅ³ ½ÃÀü Áß
-        Debug.Log("»çÀÚ ½ºÅ³ ÄÚ·çÆ¾ ½ÇÇàÁß");
-        yield return new WaitForSeconds(5f); // 5ÃÊ ´ë±â
-        Is_LionSK_corutine = false; // ÄÚ·çÆ¾ Á¾·á, ½ºÅ³ Á¾·á
+        Is_LionSK_corutine = true; // ì½”ë£¨í‹´ ì‹¤í–‰ ì¤‘, ìŠ¤í‚¬ ì‹œì „ ì¤‘
+        Debug.Log("ì‚¬ì ìŠ¤í‚¬ ì½”ë£¨í‹´ ì‹¤í–‰ì¤‘");
+        yield return new WaitForSeconds(5f); // 5ì´ˆ ëŒ€ê¸°
+        Is_LionSK_corutine = false; // ì½”ë£¨í‹´ ì¢…ë£Œ, ìŠ¤í‚¬ ì¢…ë£Œ
     }
 }

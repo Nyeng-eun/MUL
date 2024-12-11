@@ -4,27 +4,37 @@ using UnityEngine;
 
 public class CrowCtrl : MonoBehaviour
 {
-    private Animator _animator; // ¾Ö´Ï¸ŞÀÌÅÍ º¯¼ö ¼±¾ğ
-    public float moveSpeed = 5f; // ÀÌµ¿¼Óµµ
+    private Animator _animator; // ì• ë‹ˆë©”ì´í„° ë³€ìˆ˜ ì„ ì–¸
+    public float moveSpeed = 5f; // ì´ë™ì†ë„
+    public float rotSpeed = 1000f; // íšŒì „ì†ë„
+    private int isJumping = 0;
 
     void Awake()
     {
-        _animator = GetComponent<Animator>(); // Animator ÄÄÆ÷³ÍÆ® °¡Á®¿À±â
+        _animator = GetComponent<Animator>(); // Animator ì»´í¬ë„ŒíŠ¸ ê°€ì ¸ì˜¤ê¸°
     }
 
     void Update()
     {
-        float v;
-        if (Input.GetKey(KeyCode.C)) // ´Ş¸®±â (Shift + W Å°(¼öÁ÷ ÀÔ·Â°ª))
+        transform.Rotate(0, Input.GetAxis("Mouse ScrollWheel") * rotSpeed * Time.deltaTime, 0);
+        
+        if (Input.GetKey(KeyCode.Space))
         {
-            v = 1f;
-            _animator.SetFloat("V", v, 0.1f, Time.deltaTime);
-            Vector3 moveDir = Vector3.forward * _animator.GetFloat("V");
-            transform.Translate(moveDir * moveSpeed * Time.deltaTime, Space.Self);
+            _animator.SetBool("isJumped", true);
         }
         else
         {
-            v = 0f;
+            _animator.SetBool("isJumped", false);
         }
+
+        if (isJumping == 1)
+        {
+            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime, Space.Self);
+        }
+    }
+
+    public void SetJump(int j)
+    {
+        isJumping = j;
     }
 }
