@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class WitchCtrl : MonoBehaviour
 {
-    public int hp = 30;
-    private int b_Type;
-    private float b_Speed = 5.0f;
+    public int hp = 30; // 체력
+    private int b_Type; // 페이즈
+    private float b_Speed = 5.0f; // 마녀 이동 속도
 
-    private bool isDestroyed = false;
-    public bool Unbeatable = false;
-    public bool isAttacked = false;
+    private bool isDestroyed = false; // 처치 유무
+    public bool Unbeatable = false; // 마지막 페이즈 넘어가기 전 무적 시간
+    public bool isAttacked = false; // 공격 중
     //private Animator B_ani;
 
     public GameObject meteo_Particle;
-    Vector3 originalPosition = new Vector3(0, 0.1f, 0);
-    Vector3 targetPosition = new Vector3(0, 8.0f, 0);
+    Vector3 originalPosition = new Vector3(0, 0.1f, 0); // 마녀 바닥에 있을 시
+    Vector3 targetPosition = new Vector3(0, 8.0f, 0); // 마녀 공중에 있을 시
 
     public GameManager gameManager;
 
@@ -33,7 +33,7 @@ public class WitchCtrl : MonoBehaviour
 
         switch (b_Type)
         {
-            case 0:
+            case 0: // 첫 페이즈
                 gameManager.isCrowattacked = true;
                 if (hp <= 0)
                 {
@@ -41,7 +41,7 @@ public class WitchCtrl : MonoBehaviour
                 }
                 break;
 
-            case 1:
+            case 1: // 마지막 페이즈
                 if (hp <= 0)
                 {
                     DestroyB();
@@ -58,13 +58,13 @@ public class WitchCtrl : MonoBehaviour
 
     void OnCollisionEnter(Collision coll)
     {
-        if (coll.gameObject.tag == "Monster") // 까마귀에게 맞을 시
+        if (coll.gameObject.tag == "Monster") // 까마귀에게 부딪힐 시
         {
             hp--;
-            Destroy(coll.gameObject);
+            Destroy(coll.gameObject); // 부딪힌 까마귀 삭제
         }
     }
-    void DestroyB()
+    void DestroyB() // 마녀 처치
     {
         if (isDestroyed) return; // 중복 파괴 방지
 
@@ -94,7 +94,7 @@ public class WitchCtrl : MonoBehaviour
 
     IEnumerator last_Phase() // 마지막 페이즈 공격 패턴
     {
-        isAttacked = true;
+        isAttacked = true; // 공격 시작
         int meteoAttack = 5;
 
         for (int i = 0; i < meteoAttack; i++)
@@ -142,6 +142,6 @@ public class WitchCtrl : MonoBehaviour
 
         yield return new WaitForSeconds(2.0f);
 
-        isAttacked = false;
+        isAttacked = false; // 공격 끝
     }
 }
