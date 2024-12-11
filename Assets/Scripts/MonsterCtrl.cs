@@ -27,6 +27,7 @@ public class MonsterCtrl : MonoBehaviour
         _playerMove = player.GetComponent<PlayerMove>();
         M_ani = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        projector = GetComponent<DecalProjector>();
 
         switch (e_Type)
         {
