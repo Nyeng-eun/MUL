@@ -476,8 +476,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bba7b05322393145946744b2e71ef78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerCtrl: {fileID: 0}
-  isFirst: 0
+  spawnPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  e_num: 0
+  e_types:
+  - {fileID: 1867776958763354093, guid: 2cca370da4526c747bb87847727e3e59, type: 3}
+  - {fileID: 8994846733350333734, guid: 99c2ac8bebb9b8d4bbc7925973f2017b, type: 3}
+  crowBattle: 0
+  isCrowattacked: 0
 --- !u!4 &641913642
 Transform:
   m_ObjectHideFlags: 0

@@ -60,14 +60,14 @@ public class PlayerMove : MonoBehaviour
                 // rb.AddForce(Vector3.up * jumpForce, ForceMode.VelocityChange); -> 점프, ForceMode.VelocityChange : 순간적인 속도 변화를 가함
                 Debug.Log("점프 성공");
             }
-
+            
             else if (Input.GetKeyDown(KeyCode.E)) // 상호 작용 (E 키)
             {
                 Debug.DrawRay(transform.position, transform.forward * rayLength, Color.green);
                 // Debug.DrawRay(시작점, 방향 * 길이, 색상) : 레이를 그리는 함수
                 Debug.Log("상호작용 E키 눌림");
 
-                if (Physics.Raycast(transform.position, transform.forward, out hit, rayLength, LayerMask.GetMask("Interact")))
+                if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out hit, rayLength, LayerMask.GetMask("Interact")))
                 // Raycast(시작점, 방향, out hit, 길이, LayerMask.GetMask("Interact")) : 레이를 쏘는 함수
                 // LayerMask.GetMask("Interact") : Interact 레이어에만 충돌하도록 설정
                 {
@@ -104,7 +104,8 @@ public class PlayerMove : MonoBehaviour
             _animator.SetFloat("v", v);
             _animator.SetFloat("h", h);
             // mixamo에서 좌우 움직임 애니메이션, 앞뒤 움직임 애니메이션 찾기
-            // animation Blend Tree
+            // animation Blend Tree\
+            Debug.DrawRay(transform.position + Vector3.up, transform.forward * rayLength, Color.green);
         }
     }
 

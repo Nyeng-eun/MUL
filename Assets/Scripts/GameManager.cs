@@ -2,64 +2,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour // °ÔÀÓ ¸Å´ÏÀú, °ÔÀÓÀÇ Àü¹İÀûÀÎ ±â´ÉÀ» °ü¸®
+public class GameManager : MonoBehaviour // ê²Œì„ ë§¤ë‹ˆì €, ê²Œì„ì˜ ì „ë°˜ì ì¸ ê¸°ëŠ¥ì„ ê´€ë¦¬
 {
-    public static GameManager instance = null; // ¸ğµç ½ºÅ©¸³Æ®¿¡¼­ Á¢±Ù °¡´ÉÇÏµµ·Ï Á¤Àû º¯¼ö(static)·Î ¼±¾ğ
-    [SerializeField] public PlayerMove _playerCtrl = null;
-    [SerializeField] public bool isFirst = false;
+    public static GameManager instance = null; // ëª¨ë“  ìŠ¤í¬ë¦½íŠ¸ì—ì„œ ì ‘ê·¼ ê°€ëŠ¥í•˜ë„ë¡ ì •ì  ë³€ìˆ˜(static)ë¡œ ì„ ì–¸
+    
+    [SerializeField] private GameObject[] spawnPoints;//ì  ë°°ì—´ ë° ìƒì„± ìœ„ì¹˜ ë°°ì—´ ë³€ìˆ˜ ì„ ì–¸
+    [SerializeField] private int e_num; // ë§ˆë…€ ê¹Œë§ˆê·€
+    [SerializeField] private GameObject[] e_types; // ì  ì¢…ë¥˜ ë°°ì—´
+    private PlayerMove _playerCtrl = null;
 
-    public Transform[] spawnPoints;//Àû ¹è¿­ ¹× »ı¼º À§Ä¡ ¹è¿­ º¯¼ö ¼±¾ğ
-    public GameObject b_crow; // ¸¶³à ±î¸¶±Í
-
-    public float maxSpawnDelay;
-    public float couSpawnDelay;  //Àû »ı¼º µô·¹ÀÌ º¯¼ö ¼±¾ğ
-
-    public bool isCrowattacked = false; // ¸¶³à ±î¸¶±Í ¼ÒÈ¯
+    private float maxSpawnDelay = 3f;
+    private float curSpawnDelay = 0f;  //ì  ìƒì„± ë”œë ˆì´ ë³€ìˆ˜ ì„ ì–¸
+    public bool crowBattle = false;
+    public bool isCrowattacked = false; // ë§ˆë…€ ê¹Œë§ˆê·€ ì†Œí™˜
 
     void Awake()
     {
-        // ½Ì±ÛÅÏ ÆĞÅÏ(ÇÏ³ªÀÇ Å¬·¡½º¸¸ Á¸ÀçÇÏµµ·Ï Áßº¹ ¹æÁö)
-        if (instance != null) Destroy(gameObject); // instance°¡ ÀÌ¹Ì ÀÖÀ¸¸é ¿ÀºêÁ§Æ® ÆÄ±«
+        // ì‹±ê¸€í„´ íŒ¨í„´(í•˜ë‚˜ì˜ í´ë˜ìŠ¤ë§Œ ì¡´ì¬í•˜ë„ë¡ ì¤‘ë³µ ë°©ì§€)
+        if (instance != null) Destroy(gameObject); // instanceê°€ ì´ë¯¸ ìˆìœ¼ë©´ ì˜¤ë¸Œì íŠ¸ íŒŒê´´
 
-        instance = this; // instance¸¦ ÀÚ½ÅÀ¸·Î ÁöÁ¤
-        DontDestroyOnLoad(gameObject); // ¾À ÀüÈ¯½Ã ¾ø¾îÁöÁö ¾Êµµ·Ï ¼³Á¤
+        instance = this; // instanceë¥¼ ìì‹ ìœ¼ë¡œ ì§€ì •
+        DontDestroyOnLoad(gameObject); // ì”¬ ì „í™˜ì‹œ ì—†ì–´ì§€ì§€ ì•Šë„ë¡ ì„¤ì •
     }
 
     void Start()
     {
-        _playerCtrl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>(); // ÇÃ·¹ÀÌ¾î Ã£±â, ÇÃ·¹ÀÌ¾î ¿ÀºêÁ§Æ®¸¦ Ã£¾Æ player¿¡ ÀúÀå
+        _playerCtrl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>(); // í”Œë ˆì´ì–´ ì°¾ê¸°, í”Œë ˆì´ì–´ ì˜¤ë¸Œì íŠ¸ë¥¼ ì°¾ì•„ playerì— ì €ì¥
         
-        if (DataManager.instance != null) // DataManager ÀÎ½ºÅÏ½º°¡ Á¸ÀçÇÑ´Ù¸é
+        if (DataManager.instance != null) // DataManager ì¸ìŠ¤í„´ìŠ¤ê°€ ì¡´ì¬í•œë‹¤ë©´
         {
             DataManager.instance.LoadCheckpoint(_playerCtrl.gameObject);
-            // DataManagerÀÇ LoadCheckpoint ÇÔ¼ö È£Ãâ, ÇÃ·¹ÀÌ¾î À§Ä¡ º¹¿ø
-            // ÇÃ·¹ÀÌ¾î À§Ä¡¸¦ º¹¿ø -> °ÔÀÓÀ» Á¾·áÇß´Ù°¡ ´Ù½Ã ½ÃÀÛÇßÀ» ¶§ ÇÃ·¹ÀÌ¾îÀÇ À§Ä¡¸¦ ÀúÀåÇØµÎ¾ú´Ù°¡ ºÒ·¯¿À±â À§ÇØ
+            // DataManagerì˜ LoadCheckpoint í•¨ìˆ˜ í˜¸ì¶œ, í”Œë ˆì´ì–´ ìœ„ì¹˜ ë³µì›
+            // í”Œë ˆì´ì–´ ìœ„ì¹˜ë¥¼ ë³µì› -> ê²Œì„ì„ ì¢…ë£Œí–ˆë‹¤ê°€ ë‹¤ì‹œ ì‹œì‘í–ˆì„ ë•Œ í”Œë ˆì´ì–´ì˜ ìœ„ì¹˜ë¥¼ ì €ì¥í•´ë‘ì—ˆë‹¤ê°€ ë¶ˆëŸ¬ì˜¤ê¸° ìœ„í•´
         }
     }
 
-    private void Interact() // »óÈ£ÀÛ¿ë ÇÔ¼ö
+    void Update()
     {
+        if (crowBattle) {
+            maxSpawnDelay = 0f;
+            e_num = 0;
+            spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            crowBattle = false;
+        }
+        else if (isCrowattacked) {
+            maxSpawnDelay = 0.5f;
+            e_num = 0;
+            spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
+            isCrowattacked = false;
+        }
 
-    }
-
-    private void Update()
-    {
-        couSpawnDelay += Time.deltaTime; //Áö±İ Èå¸£°í ÀÖ´Â ½Ã°£
-
-        if (isCrowattacked)
+        curSpawnDelay += Time.deltaTime; //ì§€ê¸ˆ íë¥´ê³  ìˆëŠ” ì‹œê°„
+        if (curSpawnDelay > maxSpawnDelay)
         {
-            if (couSpawnDelay > maxSpawnDelay)
-            {
-                SpawnCrow();
-                maxSpawnDelay = Random.Range(0.5f, 3f); //Á¤ÇØÁø ¹üÀ§ ³»ÀÇ ·£´ı ¼ıÀÚ ¹İÈ¯ (float, int)
-                couSpawnDelay = 0; //Àû »ı¼º ÈÄ µô·¹ÀÌ º¯¼ö 0À¸·Î ÃÊ±âÈ­
-            }
+            SpawnEnemy(e_types[e_num]);
+            maxSpawnDelay = Random.Range(2f, 3f); //ì •í•´ì§„ ë²”ìœ„ ë‚´ì˜ ëœë¤ ìˆ«ì ë°˜í™˜ (float, int)
+            curSpawnDelay = 0f; //ì  ìƒì„± í›„ ë”œë ˆì´ ë³€ìˆ˜ 0ìœ¼ë¡œ ì´ˆê¸°í™”
         }
     }
 
-    void SpawnCrow() // ¸¶³à ±î¸¶±Í ¼ÒÈ¯ ÇÔ¼ö
+    private void SpawnEnemy(GameObject enemy) // ì  ì†Œí™˜ í•¨ìˆ˜
     {
-        int ranPoint = Random.Range(0, 3); // ·£´ı ¼ÒÈ¯
-        Instantiate(b_crow, spawnPoints[ranPoint].position, Quaternion.identity);
+        int randPoint = Random.Range(0, spawnPoints.Length); // ëœë¤ ì†Œí™˜
+        Instantiate(enemy, spawnPoints[randPoint].transform.position, spawnPoints[randPoint].transform.rotation);
     }
 }
+

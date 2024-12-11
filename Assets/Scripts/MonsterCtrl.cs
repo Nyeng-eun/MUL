@@ -5,15 +5,15 @@ using UnityEngine.Rendering.Universal;
 
 public class MonsterCtrl : MonoBehaviour
 {
-    public int e_Type; // 0 = ±î¸¶±Í 1 = ´Á´ë 2 = °ñ·½
+    public int e_Type; // 0 = ê¹Œë§ˆê·€ 1 = ëŠ‘ëŒ€ 2 = ê³¨ë ˜
     private PlayerMove _playerMove;
-    private GameObject player; // ÇÃ·¹ÀÌ¾î
-    private Animator M_ani; // ¸ó½ºÅÍ ¾Ö´Ï¸ŞÀÌ¼Ç
-    private int hp; // Ã¼·Â
-    private float e_Speed; // ±âº» ¼Óµµ
-    private float attackRange; // µ¹Áø °Å¸®
-    private float attackSpeed; // µ¹Áø ¼Óµµ
-    private float pushPower; // ¹ĞÃÄÁö´Â Èû
+    private GameObject player; // í”Œë ˆì´ì–´
+    private Animator M_ani; // ëª¬ìŠ¤í„° ì• ë‹ˆë©”ì´ì…˜
+    private int hp; // ì²´ë ¥
+    private float e_Speed; // ê¸°ë³¸ ì†ë„
+    private float attackRange; // ëŒì§„ ê±°ë¦¬
+    private float attackSpeed; // ëŒì§„ ì†ë„
+    private float pushPower; // ë°€ì³ì§€ëŠ” í˜
 
     private DecalProjector projector;
 
@@ -23,7 +23,7 @@ public class MonsterCtrl : MonoBehaviour
 
     void Awake()
     {
-        player = GameObject.FindWithTag("Player"); // ÇÃ·¹ÀÌ¾î Ã£±â
+        player = GameObject.FindWithTag("Player"); // í”Œë ˆì´ì–´ ì°¾ê¸°
         _playerMove = player.GetComponent<PlayerMove>();
         M_ani = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
@@ -67,11 +67,11 @@ public class MonsterCtrl : MonoBehaviour
                 case 1:
                     if (hp > 1)
                     {
-                        // ´Á´ë ½ºÅÏ ¾Ö´Ï¸ŞÀÌ¼Ç
+                        // ëŠ‘ëŒ€ ìŠ¤í„´ ì• ë‹ˆë©”ì´ì…˜
                     }
                     else
                     {
-                        // ¾È³çÈ÷°è¼¼¿ä! ¿©·¯ºĞ! ½ÃÀü
+                        // ì•ˆë…•íˆê³„ì„¸ìš”! ì—¬ëŸ¬ë¶„! ì‹œì „
                     }
                     break;
 
@@ -81,17 +81,17 @@ public class MonsterCtrl : MonoBehaviour
         }
         else
         {
-            Vector3 moveDir = (player.transform.position - transform.position).normalized; // ¹æÇâ ¼³Á¤
-            float Distance = Vector3.Distance(transform.position, player.transform.position); // ¸ó½ºÅÍ¿Í ÇÃ·¹ÀÌ¾î¿ÍÀÇ °Å¸®
+            Vector3 moveDir = (player.transform.position - transform.position).normalized; // ë°©í–¥ ì„¤ì •
+            float Distance = Vector3.Distance(transform.position, player.transform.position); // ëª¬ìŠ¤í„°ì™€ í”Œë ˆì´ì–´ì™€ì˜ ê±°ë¦¬
             switch (e_Type)
             {
-                case 0: // ±î¸¶±Í (ÇÃ·¹ÀÌ¾î¸¦ ÂÑ¾Æ´Ù´Ô)
+                case 0: // ê¹Œë§ˆê·€ (í”Œë ˆì´ì–´ë¥¼ ì«“ì•„ë‹¤ë‹˜)
                     transform.Translate(moveDir * e_Speed * Time.deltaTime, Space.World);
                     transform.LookAt(player.transform.position);
                     break;
 
-                case 1: // ´Á´ë (ÇÃ·¹ÀÌ¾î¿¡°Ô µ¹Áø)
-                    moveDir.y = 0f; // yÃà °íÁ¤
+                case 1: // ëŠ‘ëŒ€ (í”Œë ˆì´ì–´ì—ê²Œ ëŒì§„)
+                    moveDir.y = 0f; // yì¶• ê³ ì •
                     if (Distance <= attackRange && !isDash && !isCooldown)
                     {
                         isDash = true;
@@ -110,8 +110,8 @@ public class MonsterCtrl : MonoBehaviour
                     }
                     break;
 
-                case 2: // °ñ·½
-                    moveDir.y = 0f; // yÃà °íÁ¤
+                case 2: // ê³¨ë ˜
+                    moveDir.y = 0f; // yì¶• ê³ ì •
                     if (Distance <= attackRange && !isDash && !isCooldown)
                     {
                         isDash = true;
@@ -135,9 +135,9 @@ public class MonsterCtrl : MonoBehaviour
     }
     void OnCollisionEnter(Collision coll)
     {
-        if (coll.gameObject.tag == "Player") // ÇÃ·¹ÀÌ¾î¿¡°Ô µ¹Áø ¼º°ø ½Ã
+        if (coll.gameObject.tag == "Player") // í”Œë ˆì´ì–´ì—ê²Œ ëŒì§„ ì„±ê³µ ì‹œ
         {
-            player.GetComponent<Rigidbody>().AddForce(transform.forward * pushPower, ForceMode.Impulse); // ÇÃ·¹ÀÌ¾î ¹Ğ¾î³»±â
+            player.GetComponent<Rigidbody>().AddForce(transform.forward * pushPower, ForceMode.Impulse); // í”Œë ˆì´ì–´ ë°€ì–´ë‚´ê¸°
         }
     }
 
@@ -145,42 +145,42 @@ public class MonsterCtrl : MonoBehaviour
     {
         yield return new WaitForSeconds(3.0f);
         rb.velocity = Vector3.zero;
-        isDash = false; // µ¹Áø °¡´É
-        isCooldown = true; // Äğ´Ù¿î ½ÃÀÛ
+        isDash = false; // ëŒì§„ ê°€ëŠ¥
+        isCooldown = true; // ì¿¨ë‹¤ìš´ ì‹œì‘
 
-        yield return new WaitForSeconds(1.0f); // Äğ´Ù¿î ½Ã°£
-        isCooldown = false; // Äğ´Ù¿î Á¾·á
+        yield return new WaitForSeconds(1.0f); // ì¿¨ë‹¤ìš´ ì‹œê°„
+        isCooldown = false; // ì¿¨ë‹¤ìš´ ì¢…ë£Œ
     }
 
-    IEnumerator w_Dash(Vector3 moveDir) // ´Á´ë µ¹Áø
+    IEnumerator w_Dash(Vector3 moveDir) // ëŠ‘ëŒ€ ëŒì§„
     {
         M_ani.SetBool("w_Walk", false);
-        projector.fadeFactor = 1.0f; // °ø°İ ¹æÇâ Ç¥½Ã
+        projector.fadeFactor = 1.0f; // ê³µê²© ë°©í–¥ í‘œì‹œ
         yield return new WaitForSeconds(0.5f);
 
-        projector.fadeFactor = 0f; // °ø°İ ¹æÇâ Ç¥½Ã x
+        projector.fadeFactor = 0f; // ê³µê²© ë°©í–¥ í‘œì‹œ x
 
         M_ani.SetBool("w_Attack", true);
-        rb.AddForce(moveDir * attackSpeed, ForceMode.Impulse); // AddForce()·Î µ¹Áø
+        rb.AddForce(moveDir * attackSpeed, ForceMode.Impulse); // AddForce()ë¡œ ëŒì§„
         transform.rotation = Quaternion.LookRotation(transform.forward);
         M_ani.SetBool("w_Attack", false);
 
-        yield return StartCoroutine(StopDash()); // StopDash() ½ÃÀÛ
+        yield return StartCoroutine(StopDash()); // StopDash() ì‹œì‘
     }
 
-    IEnumerator g_Dash(Vector3 moveDir) // °ñ·½ µ¹Áø
+    IEnumerator g_Dash(Vector3 moveDir) // ê³¨ë ˜ ëŒì§„
     {
         M_ani.SetBool("g_Walk", false);
-        projector.fadeFactor = 1.0f; // °ø°İ ¹æÇâ Ç¥½Ã
+        projector.fadeFactor = 1.0f; // ê³µê²© ë°©í–¥ í‘œì‹œ
         yield return new WaitForSeconds(3f);
-        projector.fadeFactor = 0f; // °ø°İ ¹æÇâ Ç¥½Ã x
+        projector.fadeFactor = 0f; // ê³µê²© ë°©í–¥ í‘œì‹œ x
 
         M_ani.SetBool("g_Attack", true);
-        rb.AddForce(moveDir * attackSpeed, ForceMode.Impulse); // AddForce()·Î µ¹Áø
+        rb.AddForce(moveDir * attackSpeed, ForceMode.Impulse); // AddForce()ë¡œ ëŒì§„
         transform.rotation = Quaternion.LookRotation(transform.forward);
         M_ani.SetBool("g_Attack", false);
 
-        yield return StartCoroutine(StopDash()); // StopDash() ½ÃÀÛ
+        yield return StartCoroutine(StopDash()); // StopDash() ì‹œì‘
     }
 }
 
