@@ -8,6 +8,7 @@ public class PlayerMove : MonoBehaviour
     private bool isGround; // 땅에 닿았는지 확인하는 변수 (닌자맛 쿠키 전용 스킬인 2단 점프 방지용)
     private bool is_Lion_Start = false; // 사자 스킬 발동 조건 확인 변수 (발판 밟았는지 확인하기위해)
     public bool Is_LionSK_corutine = false; // 사자후 스킬 딜레이용 코루틴 실행여부 변수 (사자후 스킬 연달아 사용하는걸 방지하기 위한 딜레이)
+    public bool Is_LionSK = false; // R키 누른 직후에만 스킬 발동
 
     private Animator _animator; // 애니메이터 변수 선언
     private Rigidbody rb; // 물리엔진을 사용하기 위한 변수 (점프)
@@ -21,6 +22,7 @@ public class PlayerMove : MonoBehaviour
     public float rotSpeed = 250f; // 회전속도
     public float moveSpeed = 3.5f; // 이동속도
     public float skRange = 5; // 스킬 범위 변수
+    public float L_skRange = 5; // 사자 스킬 범위 변수
 
     void Awake()
     {
@@ -169,9 +171,14 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator LionPower() // 사자후 딜레이 추가용 코루틴 함수
     {
+        Is_LionSK = true;
         Is_LionSK_corutine = true; // 코루틴 실행 중, 스킬 시전 중
+        yield return new WaitForSeconds(0.1f); // 0.1초 대기
+
+        Is_LionSK = false;
         Debug.Log("사자 스킬 코루틴 실행중");
         yield return new WaitForSeconds(5f); // 5초 대기
+
         Is_LionSK_corutine = false; // 코루틴 종료, 스킬 종료
     }
 }

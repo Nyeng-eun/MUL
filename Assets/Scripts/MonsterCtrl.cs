@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class MonsterCtrl : MonoBehaviour
 {
-    public int e_Type; // 0 = ±Ó∏∂±Õ 1 = ¥¡¥Î 2 = ∞Ò∑Ω 3 = º±¿Œ¿Â
+    public int e_Type; // 0 = ±Ó∏∂±Õ 1 = ¥¡¥Î 2 = ∞Ò∑Ω
     private PlayerMove _playerMove;
     private GameObject player; // «√∑π¿ÃæÓ
     private Animator M_ani; // ∏ÛΩ∫≈Õ æ÷¥œ∏ﬁ¿Ãº«
