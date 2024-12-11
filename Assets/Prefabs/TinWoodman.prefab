@@ -354,7 +354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 41678247084263704}
   - component: {fileID: 4299929796429724820}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: TinWoodman
   m_TagString: Untagged
   m_Icon: {fileID: 0}
