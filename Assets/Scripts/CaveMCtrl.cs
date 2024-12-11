@@ -93,6 +93,7 @@ public class CaveMCtrl : MonoBehaviour
                     target = position.transform;
                 }
             }
+            positionAgent.speed = 30.0f;
             positionAgent.SetDestination(target.position); // position 찾아가기
         }
     }
