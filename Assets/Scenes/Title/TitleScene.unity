@@ -487,6 +487,7 @@ MonoBehaviour:
   e_types:
   - {fileID: 1867776958763354093, guid: 2cca370da4526c747bb87847727e3e59, type: 3}
   - {fileID: 8994846733350333734, guid: 99c2ac8bebb9b8d4bbc7925973f2017b, type: 3}
+  _playerCtrl: {fileID: 0}
   crowBattle: 0
   isCrowattacked: 0
 --- !u!4 &641913642
@@ -528,8 +529,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7360fa7b0fac0b8489df43b5d42095fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogue: {fileID: 0}
   dialogueName: {fileID: 0}
   dialogueText: {fileID: 0}
+  lifeGroup: {fileID: 0}
+  lifes: []
 --- !u!1 &644208734
 GameObject:
   m_ObjectHideFlags: 0

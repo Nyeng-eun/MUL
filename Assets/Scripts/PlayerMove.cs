@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class PlayerMove : MonoBehaviour
 
     private RaycastHit hit; // RaycastHit (충돌체크) 선언
 
+    public int maxLife = 4;
     public int life = 4; // 생명 4개 (보스전때는 6개정도)
     private float rayLength = 5f; // Ray 길이 설정
     public float jumpForce = 5f; // 점프 힘 설정
@@ -116,14 +118,15 @@ public class PlayerMove : MonoBehaviour
         if (coll.gameObject.CompareTag("Monster")) // 모든 몬스터 (잡몹, 칼리다, 마녀)
         {
             life--; // 생명 1 감소
-            _animator.SetTrigger("Attacked");
+            UIManager.instance.LifeUpdate(maxLife, life, false);
+            _animator.SetBool("Attacked", true);
             Debug.Log("몬스터와 충돌, 생명 1 감소 {life}");
         }
 
         else if (coll.gameObject.CompareTag("Position1") || coll.gameObject.CompareTag("Position2") || coll.gameObject.CompareTag("Position3") || coll.gameObject.CompareTag("Position4") || coll.gameObject.CompareTag("Position5") || coll.gameObject.CompareTag("Position6") || coll.gameObject.CompareTag("Position7")) // 미로 몬스터
         {
             life--; // 생명 1 감소
-            _animator.SetTrigger("Attacked");
+            _animator.SetBool("Attacked", true);
             Debug.Log("몬스터와 충돌, 생명 1 감소 {life}");
         }
 
@@ -148,6 +151,15 @@ public class PlayerMove : MonoBehaviour
                 is_Lion_Start = true; // 사자 스킬 시작 해라 그 뭐 시기
             }
             is_Lion_Start = false; // 더 밟으면 그냥 false
+        }
+
+        if (coll.gameObject.name == "TpToTinwoodman")
+        {
+            SceneManager.LoadScene("MainRoad_TinWoodman");
+        }
+        if (coll.gameObject.name == "TpToFuelPlant")
+        {
+            SceneManager.LoadScene("FuelPlant");
         }
     }
 
@@ -181,5 +193,10 @@ public class PlayerMove : MonoBehaviour
         yield return new WaitForSeconds(5f); // 5초 대기
 
         Is_LionSK_corutine = false; // 코루틴 종료, 스킬 종료
+    }
+
+    public void AttackedEnd()
+    {
+        _animator.SetBool("Attacked", false);
     }
 }

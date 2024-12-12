@@ -1823,7 +1823,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7460814702566472429}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 10
   m_Drag: 0
   m_AngularDrag: 1
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -1856,11 +1856,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Is_On_corutine: 0
   Is_LionSK_corutine: 0
+  Is_LionSK: 0
+  maxLife: 4
   life: 4
   jumpForce: 5
   rotSpeed: 250
   moveSpeed: 3.5
   skRange: 5
+  L_skRange: 5
 --- !u!1 &7562643988945606076
 GameObject:
   m_ObjectHideFlags: 0

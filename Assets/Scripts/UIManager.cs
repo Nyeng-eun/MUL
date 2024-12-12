@@ -7,14 +7,17 @@ using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance;
+    public static UIManager instance;
+    public Image dialogue;
     public Text dialogueName;
     public Text dialogueText;
+    public GameObject lifeGroup;
+    public Image[] lifes;
 
     void Awake()
     {
-        if (Instance != null) Destroy(gameObject);
-        Instance = this;
+        if (instance != null) Destroy(gameObject);
+        instance = this;
         DontDestroyOnLoad(gameObject);
     }
 
@@ -33,6 +36,33 @@ public class UIManager : MonoBehaviour
         else
         {
             SceneManager.LoadScene("FirstCutScene");
+        }
+    }
+
+    public void LifeUpdate(int maxLife, int life, bool maxUpdate)
+    {
+        for (int i = 0; i < lifes.Length; i++)
+        {
+            if (maxUpdate)
+            {
+                if (i < maxLife)
+                {
+                    lifes[i].enabled = true;
+                }
+                else
+                {
+                    lifes[i].enabled = false;
+                }
+            }
+
+            if (i < life)
+            {
+                lifes[i].color = Color.white;
+            }
+            else
+            {
+                lifes[i].color = Color.black;
+            }
         }
     }
 }

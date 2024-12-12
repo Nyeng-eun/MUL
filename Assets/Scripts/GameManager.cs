@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour // 게임 매니저, 게임의 전반�
     [SerializeField] private GameObject[] spawnPoints;//적 배열 및 생성 위치 배열 변수 선언
     [SerializeField] private int e_num; // 마녀 까마귀
     [SerializeField] private GameObject[] e_types; // 적 종류 배열
-    private PlayerMove _playerCtrl = null;
+    [HideInInspector] public PlayerMove _playerCtrl = null;
 
     private float maxSpawnDelay = 3f;
     private float curSpawnDelay = 0f;  //적 생성 딜레이 변수 선언
@@ -27,8 +27,6 @@ public class GameManager : MonoBehaviour // 게임 매니저, 게임의 전반�
 
     void Start()
     {
-        _playerCtrl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>(); // 플레이어 찾기, 플레이어 오브젝트를 찾아 player에 저장
-        
         if (DataManager.instance != null) // DataManager 인스턴스가 존재한다면
         {
             DataManager.instance.LoadCheckpoint(_playerCtrl.gameObject);
@@ -39,6 +37,11 @@ public class GameManager : MonoBehaviour // 게임 매니저, 게임의 전반�
 
     void Update()
     {
+        if (_playerCtrl == null)
+        {
+            _playerCtrl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>(); // 플레이어 찾기, 플레이어 오브젝트를 찾아 player에 저장
+        }
+
         if (crowBattle) {
             maxSpawnDelay = 0f;
             e_num = 0;

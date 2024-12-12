@@ -81,13 +81,13 @@ public class MonsterCtrl : MonoBehaviour
         }
         else
         {
-            Vector3 moveDir = (player.transform.position - transform.position).normalized; // 방향 설정
-            float Distance = Vector3.Distance(transform.position, player.transform.position); // 몬스터와 플레이어와의 거리
+            Vector3 moveDir = (player.transform.position + Vector3.up - transform.position).normalized; // 방향 설정
+            float Distance = Vector3.Distance(transform.position, player.transform.position + Vector3.up); // 몬스터와 플레이어와의 거리
             switch (e_Type)
             {
                 case 0: // 까마귀 (플레이어를 쫓아다님)
                     transform.Translate(moveDir * e_Speed * Time.deltaTime, Space.World);
-                    transform.LookAt(player.transform.position);
+                    transform.LookAt(player.transform.position + Vector3.up);
                     break;
 
                 case 1: // 늑대 (플레이어에게 돌진)
@@ -137,7 +137,7 @@ public class MonsterCtrl : MonoBehaviour
     {
         if (coll.gameObject.tag == "Player") // 플레이어에게 돌진 성공 시
         {
-            player.GetComponent<Rigidbody>().AddForce(transform.forward * pushPower, ForceMode.Impulse); // 플레이어 밀어내기
+            Destroy(gameObject);
         }
     }
 
