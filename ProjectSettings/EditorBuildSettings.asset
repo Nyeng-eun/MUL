@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Act 1/Scene 2/MainRoad_TinWoodman.unity
     guid: d10b2a287e671554db99e103ee1655d5
+  - enabled: 1
+    path: Assets/Scenes/Act 1/Scene 2/FuelPlant.unity
+    guid: de42fa28b09615e4aac4c63214457519
   m_configObjects: {}
