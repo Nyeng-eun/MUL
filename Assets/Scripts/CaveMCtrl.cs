@@ -12,7 +12,7 @@ public class CaveMCtrl : MonoBehaviour
     public GameObject stun_Particle; // 사자 스킬 사용 시 몬스터 스턴 파티클 효과
     private Animator C_ani;
 
-    private float pushPower = 5.0f; // 플레이어를 밀어내는 힘
+    //private float pushPower = 5.0f; // 플레이어를 밀어내는 힘
     private float maxium = float.MinValue; // 최대값 찾기
 
     private bool hasReachedT = false; // 위치 도달 유무
@@ -63,13 +63,13 @@ public class CaveMCtrl : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision coll)
+    /*void OnCollisionEnter(Collision coll)
     {
         if (coll.gameObject.tag == "Player") // 플레이어에게 돌진 성공 시
         {
             c_Player.GetComponent<Rigidbody>().AddForce(transform.forward * pushPower, ForceMode.Impulse); // 플레이어 밀어내기
         }
-    }
+    }*/
 
     void FindNewPosition()
     {

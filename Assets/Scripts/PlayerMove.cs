@@ -10,10 +10,12 @@ public class PlayerMove : MonoBehaviour
     private bool is_Lion_Start = false; // 사자 스킬 발동 조건 확인 변수 (발판 밟았는지 확인하기위해)
     public bool Is_LionSK_corutine = false; // 사자후 스킬 딜레이용 코루틴 실행여부 변수 (사자후 스킬 연달아 사용하는걸 방지하기 위한 딜레이)
     public bool Is_LionSK = false; // R키 누른 직후에만 스킬 발동
+    public bool _Unbeatable = false; // 데미지를 받을 시 무적 상태
 
     private Animator _animator; // 애니메이터 변수 선언
     private Rigidbody rb; // 물리엔진을 사용하기 위한 변수 (점프)
     private GameObject scanObject = null; // 상호작용 오브젝트
+    public GameObject p_Dam; // 사자 스킬 사용 시 몬스터 스턴 파티클 효과
 
     private RaycastHit hit; // RaycastHit (충돌체크) 선언
 
@@ -115,25 +117,38 @@ public class PlayerMove : MonoBehaviour
     // OnCollisionEnter : 충돌이 시작되었을 때, OnCollisionStay : 충돌 중일 때, OnCollisionExit : 충돌이 끝났을 때
     // Collider가 충돌했을 때 호출되는 함수, 충돌한 상대방의 Collider가 인자로 전달됨
     {
-        if (coll.gameObject.CompareTag("Monster")) // 모든 몬스터 (잡몹, 칼리다, 마녀)
+        if (coll.gameObject.CompareTag("Monster")) // 모든 몬스터 (잡몹, 골렘)
         {
-            life--; // 생명 1 감소
-            UIManager.instance.LifeUpdate(maxLife, life, false);
-            _animator.SetBool("Attacked", true);
-            Debug.Log("몬스터와 충돌, 생명 1 감소 {life}");
+            if(_Unbeatable == false)
+            {
+                life--; // 생명 1 감소
+                //UIManager.instance.LifeUpdate(maxLife, life, false);
+                _animator.SetBool("Attacked", true);
+                Debug.Log("몬스터와 충돌, 생명 1 감소 {life}");
+                StartCoroutine(p_DamStun());
+            }
         }
 
         else if (coll.gameObject.CompareTag("Position1") || coll.gameObject.CompareTag("Position2") || coll.gameObject.CompareTag("Position3") || coll.gameObject.CompareTag("Position4") || coll.gameObject.CompareTag("Position5") || coll.gameObject.CompareTag("Position6") || coll.gameObject.CompareTag("Position7")) // 미로 몬스터
         {
-            life--; // 생명 1 감소
-            _animator.SetBool("Attacked", true);
-            Debug.Log("몬스터와 충돌, 생명 1 감소 {life}");
+            if (_Unbeatable == false)
+            {
+                life--; // 생명 1 감소
+                _animator.SetBool("Attacked", true);
+                Debug.Log("몬스터와 충돌, 생명 1 감소 {life}");
+                StartCoroutine(p_DamStun());
+            }
         }
 
         else if (coll.gameObject.CompareTag("Meteor")) // 메테오
         {
-            life -= 2; // 생명 2 감소
-            Debug.Log("몬스터와 충돌, 생명 2 감소 {life}");
+            if (_Unbeatable == false)
+            {
+                life -= 2; // 생명 2 감소
+                _animator.SetBool("Attacked", true);
+                Debug.Log("몬스터와 충돌, 생명 2 감소 {life}");
+                StartCoroutine(p_DamStun());
+            }
         }
 
         if (coll.gameObject.CompareTag("Ground")) // 땅에 닿았을 때
@@ -198,5 +213,32 @@ public class PlayerMove : MonoBehaviour
     public void AttackedEnd()
     {
         _animator.SetBool("Attacked", false);
+    }
+
+    IEnumerator p_DamStun()
+    {
+        _Unbeatable = true;
+        GameObject p_DamObj = Instantiate(p_Dam); // 파티클 게임오브젝트 생성
+
+        float timer = 0f;
+        while (timer < 4.0f)
+        {
+            timer += Time.deltaTime;
+
+            if (p_DamObj != null)
+            {
+                // 플레이어 위치를 가져와 Y축 값을 수정
+                Vector3 DamPosition = this.transform.position;
+                DamPosition.y += 0.6f;
+
+                
+                p_DamObj.transform.position = DamPosition; // 파티클 위치 업데이트
+            }
+
+            yield return null; // 다음 프레임까지 대기
+        }
+
+        Destroy(p_DamObj); // 파티클 삭제
+        _Unbeatable = false;
     }
 }

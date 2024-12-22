@@ -5,21 +5,23 @@ using UnityEngine.Rendering.Universal;
 
 public class MonsterCtrl : MonoBehaviour
 {
-    public int e_Type; // 0 = 까마귀 1 = 늑대 2 = 골렘
     private PlayerMove _playerMove;
     private GameObject player; // 플레이어
+    public GameObject w_StunP; // 늑대 스턴
     private Animator M_ani; // 몬스터 애니메이션
-    private int hp; // 체력
+    private Rigidbody rb;
+
+    public int e_Type; // 0 = 까마귀 1 = 늑대 2 = 골렘
+    public int hp; // 체력
     private float e_Speed; // 기본 속도
     private float attackRange; // 돌진 거리
     private float attackSpeed; // 돌진 속도
-    private float pushPower; // 밀쳐지는 힘
 
     private DecalProjector projector;
 
     private bool isDash = false;
     private bool isCooldown = false;
-    private Rigidbody rb;
+    private bool w_isStunned = false;
 
     void Awake()
     {
@@ -34,7 +36,6 @@ public class MonsterCtrl : MonoBehaviour
             case 0:
                 e_Speed = 3.5f;
                 hp = 1;
-                pushPower = 3.0f;
                 break;
 
             case 1:
@@ -42,20 +43,19 @@ public class MonsterCtrl : MonoBehaviour
                 hp = 3;
                 attackRange = 6.0f;
                 attackSpeed = 12.0f;
-                pushPower = 2.0f;
                 break;
 
             case 2:
                 e_Speed = 6.0f;
                 attackRange = 28.0f;
                 attackSpeed = 25.0f;
-                pushPower = 2.0f;
                 break;
         }
     }
 
     void Update()
     {
+        if (w_isStunned) return;
         if (_playerMove.Is_On_corutine && Vector3.Distance(transform.position, _playerMove.transform.position) < _playerMove.skRange)
         {
             switch (e_Type)
@@ -67,11 +67,11 @@ public class MonsterCtrl : MonoBehaviour
                 case 1:
                     if (hp > 1)
                     {
-                        // 늑대 스턴 애니메이션
+                        StartCoroutine(wolf_Stun());
                     }
                     else
                     {
-                        // 안녕히계세요! 여러분! 시전
+                        Destroy(gameObject);
                     }
                     break;
 
@@ -137,13 +137,25 @@ public class MonsterCtrl : MonoBehaviour
     {
         if (coll.gameObject.tag == "Player") // 플레이어에게 돌진 성공 시
         {
-            Destroy(gameObject);
+            switch (e_Type)
+            {
+                case 0:
+                    Destroy(gameObject);
+                    break;
+
+                case 1:
+                    return;
+
+                case 2:
+                    return;
+
+            }
         }
     }
 
     IEnumerator StopDash()
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(1.5f);
         rb.velocity = Vector3.zero;
         isDash = false; // 돌진 가능
         isCooldown = true; // 쿨다운 시작
@@ -160,10 +172,10 @@ public class MonsterCtrl : MonoBehaviour
 
         projector.fadeFactor = 0f; // 공격 방향 표시 x
 
-        M_ani.SetBool("w_Attack", true);
+        M_ani.SetTrigger("w_Attack");
         rb.AddForce(moveDir * attackSpeed, ForceMode.Impulse); // AddForce()로 돌진
         transform.rotation = Quaternion.LookRotation(transform.forward);
-        M_ani.SetBool("w_Attack", false);
+        M_ani.ResetTrigger("w_Attack");
 
         yield return StartCoroutine(StopDash()); // StopDash() 시작
     }
@@ -175,12 +187,25 @@ public class MonsterCtrl : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         projector.fadeFactor = 0f; // 공격 방향 표시 x
 
-        M_ani.SetBool("g_Attack", true);
+        M_ani.SetTrigger("g_Attack");
         rb.AddForce(moveDir * attackSpeed, ForceMode.Impulse); // AddForce()로 돌진
         transform.rotation = Quaternion.LookRotation(transform.forward);
-        M_ani.SetBool("g_Attack", false);
 
         yield return StartCoroutine(StopDash()); // StopDash() 시작
+    }
+
+    IEnumerator wolf_Stun()
+    {
+        M_ani.Play("Wolf_Idle");
+        w_isStunned = true;
+        GameObject w_stunObj = Instantiate(w_StunP); // 파티클 게임오브젝트 생성
+
+        Vector3 pos = this.transform.position;
+        w_stunObj.transform.position = pos; // 몬스터 위치에 파티클 생성
+        yield return new WaitForSeconds(3.0f);
+
+        Destroy(w_stunObj); // 파티클 삭제
+        w_isStunned = false;
     }
 }
 
