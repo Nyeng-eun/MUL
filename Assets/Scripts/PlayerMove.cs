@@ -183,6 +183,11 @@ public class PlayerMove : MonoBehaviour
             // isGround 값에 따라 점프 애니메이션 실행
             // 점프 애니메이션 실행
         }
+
+        if (collision.gameObject.CompareTag("LionSkill")) // 사자 스킬 발동 구간을 빠져나왔을 때
+        {
+            is_Lion_Start = false; // 사자 스킬 발동 조건 확인 변수 false
+        }
     }
 
     IEnumerator Attack() // 공격 코루틴 (시간 딜레이 후 공격)
