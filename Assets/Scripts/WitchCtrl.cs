@@ -11,18 +11,18 @@ public class WitchCtrl : MonoBehaviour
     private bool isDestroyed = false; // 처치 유무
     public bool Unbeatable = false; // 마지막 페이즈 넘어가기 전 무적 시간
     public bool isAttacked = false; // 공격 중
-    //private Animator B_ani;
+    private Animator B_ani;
 
     public GameObject meteo_Particle;
-    Vector3 originalPosition = new Vector3(0, 0.1f, 0); // 마녀 바닥에 있을 시
-    Vector3 targetPosition = new Vector3(0, 8.0f, 0); // 마녀 공중에 있을 시
+    Vector3 originalPosition = new Vector3(0, 0.1f, 50.0f); // 마녀 바닥에 있을 시
+    Vector3 targetPosition = new Vector3(0, 8.0f, 50.0f); // 마녀 공중에 있을 시
 
     public GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        //B_ani = GetComponent<Animator>();
+        B_ani = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -78,9 +78,9 @@ public class WitchCtrl : MonoBehaviour
         gameManager.isCrowattacked = false;
         hp = 30;
 
-        //B_ani.SetBool("공중에 떠있는 거.. 나중에 바꿀 겁니다. 안심하십쇼.", true);
+        B_ani.SetBool("meteo_Attack", true);
 
-        while (Vector3.Distance(transform.position, targetPosition) > 0.01f) // 목표 도달까지 기다리기 // 마녀 x,z 축 위치도 바꿀 예정
+        while (Vector3.Distance(transform.position, targetPosition) > 0.01f) // 목표 도달까지 기다리기
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * b_Speed); // 마녀 위치 이동
             yield return null; // 다음 프레임까지 대기
@@ -127,13 +127,13 @@ public class WitchCtrl : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, originalPosition, Time.deltaTime * b_Speed); // 마녀 위치 이동
             yield return null; // 다음 프레임까지 대기
         }
-        //B_ani.SetBool("공중에 떠있는 거.. 나중에 바꿀 겁니다. 안심하십쇼.", false);
+        B_ani.SetBool("meteo_Attack", false);
 
         gameManager.isCrowattacked = true;
         yield return new WaitForSeconds(10.0f);
 
         gameManager.isCrowattacked = false;
-        //B_ani.SetBool("공중에 떠있는 거.. 나중에 바꿀 겁니다. 안심하십쇼.", true);
+        B_ani.SetBool("meteo_Attack", true);
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f) // 위로 마녀 올라감
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * b_Speed); // 마녀 위치 이동
