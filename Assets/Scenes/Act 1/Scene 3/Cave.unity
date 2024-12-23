@@ -699,6 +699,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Position1
       objectReference: {fileID: 0}
+    - target: {fileID: 5876949206263575393, guid: 35f16650380449c78eeac51057eaff2a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 0b6314599711ac94d8ba46e1e24969cd, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -733,7 +737,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   c_playerMove: {fileID: 0}
-  stun_Particle: {fileID: 0}
+  stun_Particle: {fileID: 6097779538034126439, guid: b6d3e2e4b8df2964eb3dfce561902f3e, type: 3}
   isStunned: 0
 --- !u!195 &221751001
 NavMeshAgent:
@@ -1665,6 +1669,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Position5
       objectReference: {fileID: 0}
+    - target: {fileID: 5876949206263575393, guid: 35f16650380449c78eeac51057eaff2a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 0b6314599711ac94d8ba46e1e24969cd, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1699,7 +1707,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   c_playerMove: {fileID: 0}
-  stun_Particle: {fileID: 0}
+  stun_Particle: {fileID: 6097779538034126439, guid: b6d3e2e4b8df2964eb3dfce561902f3e, type: 3}
   isStunned: 0
 --- !u!195 &374828966
 NavMeshAgent:
@@ -2464,6 +2472,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Position2
       objectReference: {fileID: 0}
+    - target: {fileID: 6096312193273766057, guid: a48631e259d0486fa83621f7d8f36e72, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 92f30144f655d1a4b9d88352e4fa581f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2498,7 +2510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   c_playerMove: {fileID: 0}
-  stun_Particle: {fileID: 0}
+  stun_Particle: {fileID: 6097779538034126439, guid: b6d3e2e4b8df2964eb3dfce561902f3e, type: 3}
   isStunned: 0
 --- !u!195 &512361900
 NavMeshAgent:
@@ -2757,6 +2769,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Position6
       objectReference: {fileID: 0}
+    - target: {fileID: 6096312193273766057, guid: a48631e259d0486fa83621f7d8f36e72, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 92f30144f655d1a4b9d88352e4fa581f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2791,7 +2807,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   c_playerMove: {fileID: 0}
-  stun_Particle: {fileID: 0}
+  stun_Particle: {fileID: 6097779538034126439, guid: b6d3e2e4b8df2964eb3dfce561902f3e, type: 3}
   isStunned: 0
 --- !u!195 &564897155
 NavMeshAgent:
@@ -4496,6 +4512,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Position4
       objectReference: {fileID: 0}
+    - target: {fileID: 5876949206263575393, guid: 35f16650380449c78eeac51057eaff2a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 0b6314599711ac94d8ba46e1e24969cd, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4530,7 +4550,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   c_playerMove: {fileID: 0}
-  stun_Particle: {fileID: 0}
+  stun_Particle: {fileID: 6097779538034126439, guid: b6d3e2e4b8df2964eb3dfce561902f3e, type: 3}
   isStunned: 0
 --- !u!195 &898988758
 NavMeshAgent:
@@ -5042,6 +5062,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Position3
       objectReference: {fileID: 0}
+    - target: {fileID: 6096312193273766057, guid: a48631e259d0486fa83621f7d8f36e72, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 92f30144f655d1a4b9d88352e4fa581f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5076,7 +5100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   c_playerMove: {fileID: 0}
-  stun_Particle: {fileID: 0}
+  stun_Particle: {fileID: 6097779538034126439, guid: b6d3e2e4b8df2964eb3dfce561902f3e, type: 3}
   isStunned: 0
 --- !u!195 &1035834334
 NavMeshAgent:
@@ -8886,6 +8910,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Position7
       objectReference: {fileID: 0}
+    - target: {fileID: 5876949206263575393, guid: 35f16650380449c78eeac51057eaff2a, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 0b6314599711ac94d8ba46e1e24969cd, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8920,7 +8948,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   c_playerMove: {fileID: 0}
-  stun_Particle: {fileID: 0}
+  stun_Particle: {fileID: 6097779538034126439, guid: b6d3e2e4b8df2964eb3dfce561902f3e, type: 3}
   isStunned: 0
 --- !u!195 &2006968314
 NavMeshAgent:

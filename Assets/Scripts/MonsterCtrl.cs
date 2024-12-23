@@ -193,6 +193,7 @@ public class MonsterCtrl : MonoBehaviour
         M_ani.SetTrigger("g_Attack");
         rb.AddForce(moveDir * attackSpeed, ForceMode.Impulse); // AddForce()로 돌진
         transform.rotation = Quaternion.LookRotation(transform.forward);
+        M_ani.ResetTrigger("g_Attack");
 
         yield return StartCoroutine(StopDash()); // StopDash() 시작
     }
