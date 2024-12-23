@@ -12,7 +12,8 @@ public class MonsterCtrl : MonoBehaviour
     private Rigidbody rb;
 
     public int e_Type; // 0 = 까마귀 1 = 늑대 2 = 골렘
-    public int hp; // 체력
+    public float hp; // 체력
+    public float maxHp; // 최대 체력
     private float e_Speed; // 기본 속도
     private float attackRange; // 돌진 거리
     private float attackSpeed; // 돌진 속도
@@ -35,12 +36,14 @@ public class MonsterCtrl : MonoBehaviour
         {
             case 0:
                 e_Speed = 3.5f;
-                hp = 1;
+                hp = 1.0f;
+                maxHp = 1.0f;
                 break;
 
             case 1:
                 e_Speed = 4.0f;
-                hp = 3;
+                hp = 3.0f;
+                maxHp = 3.0f;
                 attackRange = 6.0f;
                 attackSpeed = 12.0f;
                 break;

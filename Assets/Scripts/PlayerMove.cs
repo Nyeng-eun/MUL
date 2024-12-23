@@ -122,7 +122,7 @@ public class PlayerMove : MonoBehaviour
             if(_Unbeatable == false)
             {
                 life--; // 생명 1 감소
-                //UIManager.instance.LifeUpdate(maxLife, life, false);
+                UIManager.instance.LifeUpdate(maxLife, life, false);
                 _animator.SetBool("Attacked", true);
                 Debug.Log("몬스터와 충돌, 생명 1 감소 {life}");
                 StartCoroutine(p_DamStun());
