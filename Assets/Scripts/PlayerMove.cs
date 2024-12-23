@@ -161,11 +161,7 @@ public class PlayerMove : MonoBehaviour
 
         if (coll.gameObject.CompareTag("LionSkill")) // 사자 스킬 발동 구간
         {
-            for (int i = 0; i < 2; i++) // 1번 밟ㅂㅇ으면 실행되게
-		        {
-                is_Lion_Start = true; // 사자 스킬 시작 해라 그 뭐 시기
-            }
-            is_Lion_Start = false; // 더 밟으면 그냥 false
+            is_Lion_Start = true; // 사자 스킬 발동 조건 확인 변수 true
         }
 
         if (coll.gameObject.name == "TpToTinwoodman")
