@@ -17,7 +17,7 @@ public class WitchCtrl : MonoBehaviour
     Vector3 originalPosition = new Vector3(0, 0.1f, 50.0f); // 마녀 바닥에 있을 시
     Vector3 targetPosition = new Vector3(0, 8.0f, 50.0f); // 마녀 공중에 있을 시
 
-    public GameManager gameManager;
+    //public GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +34,7 @@ public class WitchCtrl : MonoBehaviour
         switch (b_Type)
         {
             case 0: // 첫 페이즈
-                gameManager.isCrowattacked = true;
+                //GameManager.instance.isCrowattacked = true;
                 if (hp <= 0)
                 {
                     StartCoroutine(phase_Change());
@@ -75,10 +75,10 @@ public class WitchCtrl : MonoBehaviour
     IEnumerator phase_Change()
     {
         Unbeatable = true;
-        gameManager.isCrowattacked = false;
+        //GameManager.instance.isCrowattacked = false;
         hp = 30;
 
-        B_ani.SetBool("meteo_Attack", true);
+        B_ani.SetBool("witch_Fly", true);
 
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f) // 목표 도달까지 기다리기
         {
@@ -90,10 +90,13 @@ public class WitchCtrl : MonoBehaviour
 
         b_Type = 1; // 마지막 페이즈
         Unbeatable = false;
+        B_ani.SetBool("witch_Fly", false);
     }
 
     IEnumerator last_Phase() // 마지막 페이즈 공격 패턴
     {
+        B_ani.SetBool("meteo_Attack", true);
+
         isAttacked = true; // 공격 시작
         int meteoAttack = 5;
 
@@ -121,19 +124,20 @@ public class WitchCtrl : MonoBehaviour
             }
             yield return new WaitForSeconds(2.0f);
         }
-
+        B_ani.SetBool("meteo_Attack", false);
+        B_ani.SetBool("witch_Fly", true);
         while (Vector3.Distance(transform.position, originalPosition) > 0.01f) // 바닥으로 마녀 내려옴
         {
             transform.position = Vector3.MoveTowards(transform.position, originalPosition, Time.deltaTime * b_Speed); // 마녀 위치 이동
             yield return null; // 다음 프레임까지 대기
         }
-        B_ani.SetBool("meteo_Attack", false);
+        B_ani.SetBool("witch_Fly", false);
 
-        gameManager.isCrowattacked = true;
+        //GameManager.instance.isCrowattacked = true;
         yield return new WaitForSeconds(10.0f);
 
-        gameManager.isCrowattacked = false;
-        B_ani.SetBool("meteo_Attack", true);
+        //GameManager.instance.isCrowattacked = false;
+        B_ani.SetBool("witch_Fly", true);
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f) // 위로 마녀 올라감
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, Time.deltaTime * b_Speed); // 마녀 위치 이동
@@ -143,5 +147,6 @@ public class WitchCtrl : MonoBehaviour
         yield return new WaitForSeconds(2.0f);
 
         isAttacked = false; // 공격 끝
+        B_ani.SetBool("witch_Fly", false);
     }
 }
