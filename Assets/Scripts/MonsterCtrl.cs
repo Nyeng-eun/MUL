@@ -14,7 +14,7 @@ public class MonsterCtrl : MonoBehaviour
     public int e_Type; // 0 = 까마귀 1 = 늑대 2 = 골렘
     public float hp; // 체력
     public float maxHp; // 최대 체력
-    private float e_Speed; // 기본 속도
+    public float e_Speed; // 기본 속도
     private float attackRange; // 돌진 거리
     private float attackSpeed; // 돌진 속도
 
@@ -70,8 +70,10 @@ public class MonsterCtrl : MonoBehaviour
             switch (e_Type)
             {
                 case 0:
-                    hp--;
-                    transform.Translate(transform.forward * e_Speed * Time.deltaTime, Space.Self);
+                    if (hp >= 1)
+                    {
+                        hp--;
+                    }
                     break;
 
                 case 1:
@@ -90,15 +92,20 @@ public class MonsterCtrl : MonoBehaviour
                     return;
             }
         }
-        else if (hp >= 1)
+        else
         {
             Vector3 moveDir = (player.transform.position + Vector3.up - transform.position).normalized; // 방향 설정
             float Distance = Vector3.Distance(transform.position, player.transform.position + Vector3.up); // 몬스터와 플레이어와의 거리
             switch (e_Type)
             {
                 case 0: // 까마귀 (플레이어를 쫓아다님)
-                    transform.Translate(moveDir * e_Speed * Time.deltaTime, Space.World);
-                    transform.LookAt(player.transform.position + Vector3.up);
+                    if(hp >= 1)
+                    {
+                        transform.Translate(moveDir * e_Speed * Time.deltaTime, Space.World);
+                        transform.LookAt(player.transform.position + Vector3.up);
+                    }
+                    else
+                        transform.Translate(transform.forward * e_Speed * Time.deltaTime, Space.World);
                     break;
 
                 case 1: // 늑대 (플레이어에게 돌진)
