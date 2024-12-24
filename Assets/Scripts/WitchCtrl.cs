@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class WitchCtrl : MonoBehaviour
 {
-    public int hp = 30; // 체력
+    public float hp = 30; // 체력
+    public float b_maxHp = 30; // 최대 체력
     private int b_Type; // 페이즈
     private float b_Speed = 5.0f; // 마녀 이동 속도
 
