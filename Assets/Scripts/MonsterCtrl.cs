@@ -58,18 +58,26 @@ public class MonsterCtrl : MonoBehaviour
 
     void Update()
     {
-        if (w_isStunned) return;
-        if (_playerMove.Is_On_corutine && Vector3.Distance(transform.position, _playerMove.transform.position) < _playerMove.skRange)
+        if (w_isStunned)
+        {
+            M_ani.Play("Wolf_Idle"); // 바로 Wolf_Idle 재생
+            rb.velocity = Vector3.zero; // 스턴 당하자마자 멈춤
+            return;
+        }
+
+        if (_playerMove.is_Sk && Vector3.Distance(transform.position, _playerMove.transform.position) < _playerMove.skRange)
         {
             switch (e_Type)
             {
                 case 0:
+                    hp--;
                     transform.Translate(transform.forward * e_Speed * Time.deltaTime, Space.Self);
                     break;
 
                 case 1:
                     if (hp > 1)
                     {
+                        hp--;
                         StartCoroutine(wolf_Stun());
                     }
                     else
@@ -82,7 +90,7 @@ public class MonsterCtrl : MonoBehaviour
                     return;
             }
         }
-        else
+        else if (hp >= 1)
         {
             Vector3 moveDir = (player.transform.position + Vector3.up - transform.position).normalized; // 방향 설정
             float Distance = Vector3.Distance(transform.position, player.transform.position + Vector3.up); // 몬스터와 플레이어와의 거리
@@ -170,17 +178,26 @@ public class MonsterCtrl : MonoBehaviour
     IEnumerator w_Dash(Vector3 moveDir) // 늑대 돌진
     {
         M_ani.SetBool("w_Walk", false);
+
+        if (moveDir != Vector3.zero)
+        {
+            // 스턴 후 moveDir 재정의
+            Quaternion targetRotation = Quaternion.LookRotation(moveDir);
+            transform.rotation = targetRotation;
+        }
+
         projector.fadeFactor = 1.0f; // 공격 방향 표시
         yield return new WaitForSeconds(0.5f);
 
         projector.fadeFactor = 0f; // 공격 방향 표시 x
 
         M_ani.SetTrigger("w_Attack");
+
         rb.AddForce(moveDir * attackSpeed, ForceMode.Impulse); // AddForce()로 돌진
         transform.rotation = Quaternion.LookRotation(transform.forward);
-        M_ani.ResetTrigger("w_Attack");
 
         yield return StartCoroutine(StopDash()); // StopDash() 시작
+        M_ani.ResetTrigger("w_Attack");
     }
 
     IEnumerator g_Dash(Vector3 moveDir) // 골렘 돌진
@@ -193,14 +210,13 @@ public class MonsterCtrl : MonoBehaviour
         M_ani.SetTrigger("g_Attack");
         rb.AddForce(moveDir * attackSpeed, ForceMode.Impulse); // AddForce()로 돌진
         transform.rotation = Quaternion.LookRotation(transform.forward);
-        M_ani.ResetTrigger("g_Attack");
 
         yield return StartCoroutine(StopDash()); // StopDash() 시작
+        M_ani.ResetTrigger("g_Attack");
     }
 
     IEnumerator wolf_Stun()
     {
-        M_ani.Play("Wolf_Idle");
         w_isStunned = true;
         GameObject w_stunObj = Instantiate(w_StunP); // 파티클 게임오브젝트 생성
 

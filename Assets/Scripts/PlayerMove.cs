@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMove : MonoBehaviour
 {
+    public bool is_Sk = false;
     public bool Is_On_corutine = false; // 코루틴 실행여부 변수 선언 (공격 딜레이 추가하기위해)
     private bool isGround; // 땅에 닿았는지 확인하는 변수 (닌자맛 쿠키 전용 스킬인 2단 점프 방지용)
     private bool is_Lion_Start = false; // 사자 스킬 발동 조건 확인 변수 (발판 밟았는지 확인하기위해)
@@ -192,7 +193,11 @@ public class PlayerMove : MonoBehaviour
 
     IEnumerator Attack() // 공격 코루틴 (시간 딜레이 후 공격)
     {
+        is_Sk = true;
         Is_On_corutine = true; // 코루틴 실행 중, 공격 중
+        yield return new WaitForSeconds(0.1f); // 0.1초 대기
+
+        is_Sk = false;
         Debug.Log("공격 코루틴 실행중");
         yield return new WaitForSeconds(5f); // 5초 대기
         Is_On_corutine = false; // 코루틴 종료, 공격 종료
