@@ -8,9 +8,11 @@ using UnityEngine.SceneManagement;
 public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
-    public Image dialogue;
+    public GameObject titleSet;
+    public GameObject dialogue;
     public Text dialogueName;
     public Text dialogueText;
+    public GameObject Interact;
     public GameObject lifeGroup;
     public Image[] lifes;
 
@@ -21,10 +23,49 @@ public class UIManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void ShowDialogue(string name, string text)
+    public void interact(string name) // 물체와 상호작용
     {
-        dialogueName.text = name;
-        dialogueText.text = text;
+        switch (name)
+        {
+            case "ScareCrow":
+                TalkData[] scareDialog1 = Reader.Read("scarecrow.txt");
+                StartCoroutine(ShowDialogue(scareDialog1, 1));
+                break;
+            case "Bell":
+                GameManager.instance.crowBattle = false;
+                SceneManager.LoadScene("MainRoad_ScareCrow2");
+                instance.lifeGroup.SetActive(false);
+                TalkData[] scareDialog2 = Reader.Read("scarecrow2.txt");
+                StartCoroutine(ShowDialogue(scareDialog2));
+                break;
+        }
+    }
+
+    public IEnumerator ShowDialogue(TalkData[] dialogues, int index = 0)
+    {
+        for (int i = 0; i < dialogues.Length; i++)
+        {
+            dialogue.SetActive(true);
+            dialogueName.text = dialogues[i].CharacterName;
+            dialogueText.text = dialogues[i].Dialogue;
+            yield return new WaitForSeconds(0.5f);
+            yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
+        }
+        // 대사 끝나고 난 뒤
+        switch(index)
+        {
+            case 0:
+                dialogue.SetActive(false);
+                break;
+            case 1:
+                dialogue.SetActive(false);
+                SceneManager.LoadScene("Battle_Crow");
+                GameManager.instance.crowBattle = true;
+                lifeGroup.SetActive(true);
+                break;
+        }
+
+        yield return null;
     }
 
     public void GameStart()
@@ -32,10 +73,12 @@ public class UIManager : MonoBehaviour
         if (DataManager.instance.isExist())
         {
             SceneManager.LoadScene("MainRoad_Scarecrow");
+            titleSet.SetActive(false);
         }
         else
         {
             SceneManager.LoadScene("FirstCutScene");
+            titleSet.SetActive(false);
         }
     }
 

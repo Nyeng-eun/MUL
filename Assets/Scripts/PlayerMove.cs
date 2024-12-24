@@ -81,13 +81,14 @@ public class PlayerMove : MonoBehaviour
                 }
                 else
                 {
+                    UIManager.instance.Interact.SetActive(false);
                     scanObject = null; // scanObject을 null로 초기화
                     Debug.Log("Interact 오브젝트 없음, null 초기화");
                 }
 
                 if (scanObject) // 상호작용 오브젝트가 존재한다면
                 {
-                    Utils.interact(scanObject.name); // interact 함수 실행
+                    UIManager.instance.interact(scanObject.name); // interact 함수 실행
                     Debug.Log("GameManager 상호작용 함수 실행 완료");
                 }
             }
@@ -111,6 +112,14 @@ public class PlayerMove : MonoBehaviour
             // mixamo에서 좌우 움직임 애니메이션, 앞뒤 움직임 애니메이션 찾기
             // animation Blend Tree\
             Debug.DrawRay(transform.position + Vector3.up, transform.forward * rayLength, Color.green);
+            if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out hit, rayLength, LayerMask.GetMask("Interact")))
+            {
+                UIManager.instance.Interact.SetActive(true);
+            }
+            else
+            {
+                UIManager.instance.Interact.SetActive(false);
+            }
         }
     }
 
