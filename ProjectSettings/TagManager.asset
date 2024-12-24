@@ -16,6 +16,7 @@ TagManager:
   - SpawnPoint
   - LionSkill
   - Meteor
+  - Block
   layers:
   - Default
   - TransparentFX

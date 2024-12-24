@@ -445,6 +445,7 @@ MonoBehaviour:
   e_Type: 0
   hp: 0
   maxHp: 0
+  e_Speed: 0
 --- !u!65 &5041302663218398123
 BoxCollider:
   m_ObjectHideFlags: 0

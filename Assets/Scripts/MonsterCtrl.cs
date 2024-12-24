@@ -105,7 +105,10 @@ public class MonsterCtrl : MonoBehaviour
                         transform.LookAt(player.transform.position + Vector3.up);
                     }
                     else
-                        transform.Translate(transform.forward * e_Speed * Time.deltaTime, Space.World);
+                    {
+                        Vector3 fixedDirection = new Vector3(transform.forward.x, 0f, transform.forward.z); // y 값 고정
+                        transform.Translate(fixedDirection * e_Speed * Time.deltaTime, Space.World);
+                    }
                     break;
 
                 case 1: // 늑대 (플레이어에게 돌진)
@@ -154,6 +157,22 @@ public class MonsterCtrl : MonoBehaviour
     void OnCollisionEnter(Collision coll)
     {
         if (coll.gameObject.tag == "Player") // 플레이어에게 돌진 성공 시
+        {
+            switch (e_Type)
+            {
+                case 0:
+                    Destroy(gameObject);
+                    break;
+
+                case 1:
+                    return;
+
+                case 2:
+                    return;
+
+            }
+        }
+        if (coll.gameObject.tag == "Block") // 투명벽
         {
             switch (e_Type)
             {
