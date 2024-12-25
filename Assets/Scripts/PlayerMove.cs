@@ -16,7 +16,9 @@ public class PlayerMove : MonoBehaviour
     private Animator _animator; // 애니메이터 변수 선언
     private Rigidbody rb; // 물리엔진을 사용하기 위한 변수 (점프)
     private GameObject scanObject = null; // 상호작용 오브젝트
-    public GameObject p_Dam; // 사자 스킬 사용 시 몬스터 스턴 파티클 효과
+    public GameObject p_Dam; // 플레이어 데미지 효과
+    public GameObject p_LionSk; // 사자 스킬 사용 시 효과
+    public GameObject p_Att; // 플레이어 공격 효과
 
     private RaycastHit hit; // RaycastHit (충돌체크) 선언
 
@@ -26,8 +28,8 @@ public class PlayerMove : MonoBehaviour
     public float jumpForce = 5f; // 점프 힘 설정
     public float rotSpeed = 250f; // 회전속도
     public float moveSpeed = 3.5f; // 이동속도
-    public float skRange = 5; // 스킬 범위 변수
-    public float L_skRange = 5; // 사자 스킬 범위 변수
+    public float skRange = 5.0f; // 스킬 범위 변수
+    public float L_skRange = 5.0f; // 사자 스킬 범위 변수
 
     void Awake()
     {
@@ -81,7 +83,7 @@ public class PlayerMove : MonoBehaviour
                 }
                 else
                 {
-                    UIManager.instance.Interact.SetActive(false);
+                    // UIManager.instance.Interact.SetActive(false);
                     scanObject = null; // scanObject을 null로 초기화
                     Debug.Log("Interact 오브젝트 없음, null 초기화");
                 }
@@ -96,11 +98,17 @@ public class PlayerMove : MonoBehaviour
             else if (Input.GetKeyDown(KeyCode.Q) && !Is_On_corutine) // 공격 (Q 키)
             {
                 StartCoroutine(Attack()); // 코루틴 실행, 시간 딜레이 후 공격, 공격 중에는 다시 공격할 수 없음
+                StartCoroutine(p_Attack()); // 플레이어 스킬 효과
             }
 
             else if (Input.GetKeyDown(KeyCode.R) && is_Lion_Start) // 사자 스킬 (R키 -> 특정 씬에서만 사용 가능)
             {
-                StartCoroutine(LionPower()); // 코루틴 실행, 시간 딜레이 후 스킬 시전, 스킬 사용 중에는 다시 공격할 수 없음
+                if (!Is_LionSK_corutine)
+                {
+                    StartCoroutine(LionPower()); // 코루틴 실행, 시간 딜레이 후 스킬 시전, 스킬 사용 중에는 다시 공격할 수 없음
+                    StartCoroutine(p_LionParticle());
+                }
+
             }
 
             Vector3 moveDir = (Vector3.forward * v) + (Vector3.right * h); 
@@ -114,12 +122,23 @@ public class PlayerMove : MonoBehaviour
             Debug.DrawRay(transform.position + Vector3.up, transform.forward * rayLength, Color.green);
             if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out hit, rayLength, LayerMask.GetMask("Interact")))
             {
-                UIManager.instance.Interact.SetActive(true);
+                // UIManager.instance.Interact.SetActive(true); // 작동 안돼서
             }
             else
             {
-                UIManager.instance.Interact.SetActive(false);
+               // UIManager.instance.Interact.SetActive(false); // 작동 안돼서
             }
+        }
+    }
+
+    void OnParticleCollision(GameObject other)
+    {
+        if (other.CompareTag("Meteor")) // 충돌한 오브젝트가 'Meteor'일 시
+        {
+            life -= 2;
+            Debug.Log("메테오와 충돌, 생명 2 감소 {life}");
+            _animator.SetBool("Attacked", true);
+            StartCoroutine(p_DamStun());
         }
     }
 
@@ -132,7 +151,7 @@ public class PlayerMove : MonoBehaviour
             if(_Unbeatable == false)
             {
                 life--; // 생명 1 감소
-                UIManager.instance.LifeUpdate(maxLife, life, false);
+                // UIManager.instance.LifeUpdate(maxLife, life, false); // 작동 안돼서
                 _animator.SetBool("Attacked", true);
                 Debug.Log("몬스터와 충돌, 생명 1 감소 {life}");
                 StartCoroutine(p_DamStun());
@@ -144,19 +163,9 @@ public class PlayerMove : MonoBehaviour
             if (_Unbeatable == false)
             {
                 life--; // 생명 1 감소
+                // UIManager.instance.LifeUpdate(maxLife, life, false); // 작동 안돼서
                 _animator.SetBool("Attacked", true);
                 Debug.Log("몬스터와 충돌, 생명 1 감소 {life}");
-                StartCoroutine(p_DamStun());
-            }
-        }
-
-        else if (coll.gameObject.CompareTag("Meteor")) // 메테오
-        {
-            if (_Unbeatable == false)
-            {
-                life -= 2; // 생명 2 감소
-                _animator.SetBool("Attacked", true);
-                Debug.Log("몬스터와 충돌, 생명 2 감소 {life}");
                 StartCoroutine(p_DamStun());
             }
         }
@@ -216,7 +225,7 @@ public class PlayerMove : MonoBehaviour
     {
         Is_LionSK = true;
         Is_LionSK_corutine = true; // 코루틴 실행 중, 스킬 시전 중
-        yield return new WaitForSeconds(0.1f); // 0.1초 대기
+        yield return new WaitForSeconds(0.01f); // 0.1초 대기
 
         Is_LionSK = false;
         Debug.Log("사자 스킬 코루틴 실행중");
@@ -255,5 +264,53 @@ public class PlayerMove : MonoBehaviour
 
         Destroy(p_DamObj); // 파티클 삭제
         _Unbeatable = false;
+    }
+
+    IEnumerator p_LionParticle()
+    {
+        GameObject p_LionObj = Instantiate(p_LionSk); // 파티클 게임오브젝트 생성
+
+
+        if (p_LionObj != null)
+        {
+            // 플레이어 위치를 가져와 Y축 값을 수정
+            Vector3 LionSk_Position = this.transform.position;
+            LionSk_Position.y += 0.1f;
+
+
+            p_LionObj.transform.position = LionSk_Position; // 파티클 위치 업데이트
+
+            ParticleSystem lion_Particle = p_LionObj.GetComponent<ParticleSystem>();
+            float duration = lion_Particle.main.duration;
+
+            // 파티클 지속 시간만큼 대기
+            yield return new WaitForSeconds(duration);
+        }
+
+        Destroy(p_LionObj); // 파티클 삭제
+    }
+
+    IEnumerator p_Attack()
+    {
+        GameObject p_AttackObj = Instantiate(p_Att); // 파티클 게임오브젝트 생성
+
+
+        if (p_AttackObj != null)
+        {
+            // 플레이어 위치를 가져와 Y축 값을 수정
+            Vector3 LionSk_Position = this.transform.position;
+            LionSk_Position.y += 0.1f;
+
+
+            p_AttackObj.transform.position = LionSk_Position; // 파티클 위치 업데이트
+
+            ParticleSystem Attack_Particle = p_AttackObj.GetComponent<ParticleSystem>();
+            float duration = Attack_Particle.main.duration;
+
+            // 파티클 지속 시간만큼 대기
+            yield return new WaitForSeconds(duration);
+        }
+
+        Destroy(p_AttackObj); // 파티클 삭제
     }
 }

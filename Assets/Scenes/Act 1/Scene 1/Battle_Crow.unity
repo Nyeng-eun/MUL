@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 2083455046}
-  m_IndirectSpecularColor: {r: 0.2025198, g: 0.44288585, b: 0.6566411, a: 1}
+  m_IndirectSpecularColor: {r: 0.24493077, g: 0.43529236, b: 0.6577712, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3019,6 +3019,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 696508379625676637, guid: 90a4646470294964eae250fa8ca20d2e, type: 3}
+      propertyPath: p_Dam
+      value: 
+      objectReference: {fileID: 3081362037621676516, guid: 0e1cda1849280884a99fa85ea45ffbbc, type: 3}
     - target: {fileID: 7460814702566472429, guid: 90a4646470294964eae250fa8ca20d2e, type: 3}
       propertyPath: m_Name
       value: Dorothy

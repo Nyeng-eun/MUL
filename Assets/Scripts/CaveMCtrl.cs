@@ -37,6 +37,8 @@ public class CaveMCtrl : MonoBehaviour
         if (isStunned) // 스턴 시
         {
             positionAgent.isStopped = true; // NavMeshAgent 멈춤
+            positionAgent.velocity = Vector3.zero;  // 속도 0으로 설정
+            positionAgent.ResetPath();  // 현재 경로 리셋
         }
         else
         {
@@ -104,6 +106,7 @@ public class CaveMCtrl : MonoBehaviour
         GameObject stunObj = Instantiate(stun_Particle); // 파티클 게임오브젝트 생성
 
         Vector3 pos = this.transform.position;
+        pos.y = 6.0f;
         stunObj.transform.position = pos; // 몬스터 위치에 파티클 생성
         yield return new WaitForSeconds(3.0f);
 

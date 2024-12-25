@@ -4,12 +4,14 @@ using UnityEngine;
 
 public class WitchCtrl : MonoBehaviour
 {
+    public GameManager gameManager; // 임시 게임 매니저
+
     public float hp = 30; // 체력
     public float b_maxHp = 30; // 최대 체력
     private int b_Type; // 페이즈
     private float b_Speed = 5.0f; // 마녀 이동 속도
 
-    private bool isDestroyed = false; // 처치 유무
+    public bool isDestroyed = false; // 처치 유무
     public bool Unbeatable = false; // 마지막 페이즈 넘어가기 전 무적 시간
     public bool isAttacked = false; // 공격 중
     private Animator B_ani;
@@ -33,7 +35,8 @@ public class WitchCtrl : MonoBehaviour
         switch (b_Type)
         {
             case 0: // 첫 페이즈
-                GameManager.instance.isCrowattacked = true;
+                // GameManager.instance.isCrowattacked = true;
+                gameManager.isCrowattacked = true; // 임시
                 if (hp <= 0)
                 {
                     StartCoroutine(phase_Change());
@@ -47,10 +50,14 @@ public class WitchCtrl : MonoBehaviour
                     return;
                 }
 
-                if (!isAttacked)
+                else
                 {
-                    StartCoroutine(last_Phase());
+                    if (!isAttacked)
+                    {
+                        StartCoroutine(last_Phase());
+                    }
                 }
+
                 break;
         }
     }
@@ -68,13 +75,43 @@ public class WitchCtrl : MonoBehaviour
         if (isDestroyed) return; // 중복 파괴 방지
 
         isDestroyed = true;
-        Destroy(gameObject);
+        // GameManager.instance.isCrowattacked = false;
+        gameManager.isCrowattacked = false; // 임시
+
+        B_ani.SetTrigger("witch_Die");
+
+        StopAllCoroutines(); // 진행 중인 코루틴 중단
+
+        DestroyAllMeteors(); // 모든 메테오 파티클 제거
+
+        DestroyAllMonsters(); // 모든 몬스터 제거
+    }
+
+    void DestroyAllMeteors()
+    {
+        GameObject[] meteos = GameObject.FindGameObjectsWithTag("Meteor"); // "Meteor" 태그를 가진 오브젝트 찾기
+
+        foreach (GameObject meteo in meteos)
+        {
+            Destroy(meteo); // 메테오 삭제
+        }
+    }
+
+    void DestroyAllMonsters()
+    {
+        GameObject[] monsters = GameObject.FindGameObjectsWithTag("Monster"); // "Monster" 태그를 가진 오브젝트 찾기
+
+        foreach (GameObject monster in monsters)
+        {
+            Destroy(monster); // 몬스터 삭제
+        }
     }
 
     IEnumerator phase_Change()
     {
         Unbeatable = true;
-        GameManager.instance.isCrowattacked = false;
+        // GameManager.instance.isCrowattacked = false;
+        gameManager.isCrowattacked = false; // 임시
         hp = 30;
 
         B_ani.SetBool("witch_Fly", true);
@@ -132,10 +169,12 @@ public class WitchCtrl : MonoBehaviour
         }
         B_ani.SetBool("witch_Fly", false);
 
-        GameManager.instance.isCrowattacked = true;
+        // GameManager.instance.isCrowattacked = true;
+        gameManager.isCrowattacked = true; // 임시
         yield return new WaitForSeconds(10.0f);
 
-        GameManager.instance.isCrowattacked = false;
+        // GameManager.instance.isCrowattacked = false;
+        gameManager.isCrowattacked = false; // 임시
         B_ani.SetBool("witch_Fly", true);
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f) // 위로 마녀 올라감
         {

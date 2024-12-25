@@ -47,20 +47,26 @@ public class GameManager : MonoBehaviour // 게임 매니저, 게임의 전반�
             e_num = 0;
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             crowBattle = false;
+            curSpawnDelay += Time.deltaTime; //지금 흐르고 있는 시간
+            if (curSpawnDelay > maxSpawnDelay)
+            {
+                SpawnEnemy(e_types[e_num]);
+                maxSpawnDelay = Random.Range(2f, 3f); //정해진 범위 내의 랜덤 숫자 반환 (float, int)
+                curSpawnDelay = 0f; //적 생성 후 딜레이 변수 0으로 초기화
+            }
         }
         else if (isCrowattacked) {
             maxSpawnDelay = 0.5f;
             e_num = 0;
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             isCrowattacked = false;
-        }
-
-        curSpawnDelay += Time.deltaTime; //지금 흐르고 있는 시간
-        if (curSpawnDelay > maxSpawnDelay)
-        {
-            SpawnEnemy(e_types[e_num]);
-            maxSpawnDelay = Random.Range(2f, 3f); //정해진 범위 내의 랜덤 숫자 반환 (float, int)
-            curSpawnDelay = 0f; //적 생성 후 딜레이 변수 0으로 초기화
+            curSpawnDelay += Time.deltaTime; //지금 흐르고 있는 시간
+            if (curSpawnDelay > maxSpawnDelay)
+            {
+                SpawnEnemy(e_types[e_num]);
+                maxSpawnDelay = Random.Range(2f, 3f); //정해진 범위 내의 랜덤 숫자 반환 (float, int)
+                curSpawnDelay = 0f; //적 생성 후 딜레이 변수 0으로 초기화
+            }
         }
     }
 
