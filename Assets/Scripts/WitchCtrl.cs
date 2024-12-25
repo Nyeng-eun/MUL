@@ -146,7 +146,7 @@ public class WitchCtrl : MonoBehaviour
 
                 // 랜덤 위치 지정
                 float m_X = Random.Range(-35.0f, 35.0f);
-                float m_Z = Random.Range(-35.0f, 35.0f);
+                float m_Z = Random.Range(-4.0f, 60.0f);
 
                 meteoObj.transform.position = new Vector3(m_X, 0.1f, m_Z);
 
