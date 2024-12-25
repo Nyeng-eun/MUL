@@ -5,6 +5,7 @@ using UnityEngine;
 public class WitchCtrl : MonoBehaviour
 {
     public GameManager gameManager; // 임시 게임 매니저
+    public MonsterCtrl monsterCtrl;
 
     public float hp = 30; // 체력
     public float b_maxHp = 30; // 최대 체력
@@ -66,8 +67,11 @@ public class WitchCtrl : MonoBehaviour
     {
         if (coll.gameObject.tag == "Monster") // 까마귀에게 부딪힐 시
         {
-            hp--;
-            Destroy(coll.gameObject); // 부딪힌 까마귀 삭제
+            if (monsterCtrl.hp <= 0)
+            {
+                hp--;
+                Destroy(coll.gameObject); // 부딪힌 까마귀 삭제
+            }
         }
     }
     void DestroyB() // 마녀 처치

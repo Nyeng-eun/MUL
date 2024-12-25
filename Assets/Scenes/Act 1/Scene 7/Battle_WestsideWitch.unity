@@ -1485,6 +1485,7 @@ MonoBehaviour:
   crowBattle: 0
   isCrowattacked: 0
   w_isFirstSpawn: 1
+  ba_isFirstSpawn: 1
 --- !u!4 &1185581393
 Transform:
   m_ObjectHideFlags: 0
@@ -2279,6 +2280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 1185581392}
+  monsterCtrl: {fileID: 5761707995145906824, guid: 2cca370da4526c747bb87847727e3e59, type: 3}
   hp: 30
   b_maxHp: 30
   isDestroyed: 0
