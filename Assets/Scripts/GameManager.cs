@@ -12,9 +12,11 @@ public class GameManager : MonoBehaviour // 게임 매니저, 게임의 전반�
     [HideInInspector] public PlayerMove _playerCtrl = null;
 
     private float maxSpawnDelay = 3f;
-    private float curSpawnDelay = 0f;  //적 생성 딜레이 변수 선언
+    public float curSpawnDelay = 0f;  //적 생성 딜레이 변수 선언
     public bool crowBattle = false;
     public bool isCrowattacked = false; // 마녀 까마귀 소환
+    public bool w_isFirstSpawn = true; // 마녀 까마귀 첫 번째 소환
+    public bool ba_isFirstSpawn = true; // 까마귀 배틀씬 첫 번째 소환
 
     void Awake()
     {
@@ -43,7 +45,11 @@ public class GameManager : MonoBehaviour // 게임 매니저, 게임의 전반�
         }
 
         if (crowBattle) {
-            maxSpawnDelay = 0f;
+            if (ba_isFirstSpawn)
+            {
+                maxSpawnDelay = 0.5f;
+                ba_isFirstSpawn = false; // // 다음부턴 maxSpawnDelay = 0.5f; 부분이 작동하지 x
+            }
             e_num = 0;
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             crowBattle = false;
@@ -56,7 +62,12 @@ public class GameManager : MonoBehaviour // 게임 매니저, 게임의 전반�
             }
         }
         else if (isCrowattacked) {
-            maxSpawnDelay = 0.5f;
+
+            if (w_isFirstSpawn)
+            {
+                maxSpawnDelay = 0.5f;
+                w_isFirstSpawn = false; // 다음부턴 maxSpawnDelay = 0.5f; 부분이 작동하지 x
+            }
             e_num = 0;
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
             isCrowattacked = false;
@@ -64,7 +75,7 @@ public class GameManager : MonoBehaviour // 게임 매니저, 게임의 전반�
             if (curSpawnDelay > maxSpawnDelay)
             {
                 SpawnEnemy(e_types[e_num]);
-                maxSpawnDelay = Random.Range(2f, 3f); //정해진 범위 내의 랜덤 숫자 반환 (float, int)
+                maxSpawnDelay = Random.Range(2f, 4f); //정해진 범위 내의 랜덤 숫자 반환 (float, int)
                 curSpawnDelay = 0f; //적 생성 후 딜레이 변수 0으로 초기화
             }
         }
