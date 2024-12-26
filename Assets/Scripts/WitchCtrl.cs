@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class WitchCtrl : MonoBehaviour
 {
-    public GameManager gameManager; // 임시 게임 매니저
     public MonsterCtrl monsterCtrl;
 
     public float hp = 30; // 체력
@@ -36,8 +35,7 @@ public class WitchCtrl : MonoBehaviour
         switch (b_Type)
         {
             case 0: // 첫 페이즈
-                // GameManager.instance.isCrowattacked = true;
-                gameManager.isCrowattacked = true; // 임시
+                GameManager.instance.isCrowattacked = true;
                 if (hp <= 0)
                 {
                     StartCoroutine(phase_Change());
@@ -79,8 +77,7 @@ public class WitchCtrl : MonoBehaviour
         if (isDestroyed) return; // 중복 파괴 방지
 
         isDestroyed = true;
-        // GameManager.instance.isCrowattacked = false;
-        gameManager.isCrowattacked = false; // 임시
+        GameManager.instance.isCrowattacked = false;
 
         B_ani.SetTrigger("witch_Die");
 
@@ -114,8 +111,7 @@ public class WitchCtrl : MonoBehaviour
     IEnumerator phase_Change()
     {
         Unbeatable = true;
-        // GameManager.instance.isCrowattacked = false;
-        gameManager.isCrowattacked = false; // 임시
+        GameManager.instance.isCrowattacked = false;
         hp = 30;
 
         B_ani.SetBool("witch_Fly", true);
@@ -173,12 +169,10 @@ public class WitchCtrl : MonoBehaviour
         }
         B_ani.SetBool("witch_Fly", false);
 
-        // GameManager.instance.isCrowattacked = true;
-        gameManager.isCrowattacked = true; // 임시
+        GameManager.instance.isCrowattacked = true;
         yield return new WaitForSeconds(10.0f);
 
-        // GameManager.instance.isCrowattacked = false;
-        gameManager.isCrowattacked = false; // 임시
+        GameManager.instance.isCrowattacked = false;
         B_ani.SetBool("witch_Fly", true);
         while (Vector3.Distance(transform.position, targetPosition) > 0.01f) // 위로 마녀 올라감
         {

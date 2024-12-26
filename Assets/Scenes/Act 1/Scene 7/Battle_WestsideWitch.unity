@@ -1222,60 +1222,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1137362957}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1185581391
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1185581393}
-  - component: {fileID: 1185581392}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1185581392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1185581391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1bba7b05322393145946744b2e71ef78, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spawnPoints: []
-  e_num: 0
-  e_types:
-  - {fileID: 1867776958763354093, guid: 2cca370da4526c747bb87847727e3e59, type: 3}
-  _playerCtrl: {fileID: 0}
-  curSpawnDelay: 0
-  crowBattle: 0
-  isCrowattacked: 0
-  w_isFirstSpawn: 1
-  ba_isFirstSpawn: 1
---- !u!4 &1185581393
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1185581391}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.683132, y: -5.248131, z: 23.73134}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1426653402
 GameObject:
   m_ObjectHideFlags: 0
@@ -1904,7 +1850,7 @@ PrefabInstance:
     - target: {fileID: 1379679898612635808, guid: 1ab9d7cae61c2e64ea42709aef7b8247, type: 3}
       propertyPath: gameManager
       value: 
-      objectReference: {fileID: 1185581392}
+      objectReference: {fileID: 0}
     - target: {fileID: 5115906324594973345, guid: 1ab9d7cae61c2e64ea42709aef7b8247, type: 3}
       propertyPath: m_Name
       value: Witch
@@ -1963,7 +1909,6 @@ SceneRoots:
   - {fileID: 1622126615}
   - {fileID: 1767354022}
   - {fileID: 2134615192}
-  - {fileID: 1185581393}
   - {fileID: 1648692168}
   - {fileID: 1826822965}
   - {fileID: 1535576150}
