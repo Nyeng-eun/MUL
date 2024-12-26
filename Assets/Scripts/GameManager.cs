@@ -52,7 +52,6 @@ public class GameManager : MonoBehaviour // 게임 매니저, 게임의 전반�
             }
             e_num = 0;
             spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
-            crowBattle = false;
             curSpawnDelay += Time.deltaTime; //지금 흐르고 있는 시간
             if (curSpawnDelay > maxSpawnDelay)
             {
