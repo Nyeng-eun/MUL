@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour // 게임 매니저, 게임의 전반�
             if (curSpawnDelay > maxSpawnDelay)
             {
                 SpawnEnemy(e_types[e_num]);
-                maxSpawnDelay = Random.Range(2f, 3f); //정해진 범위 내의 랜덤 숫자 반환 (float, int)
+                maxSpawnDelay = Random.Range(1f, 2f); //정해진 범위 내의 랜덤 숫자 반환 (float, int)
                 curSpawnDelay = 0f; //적 생성 후 딜레이 변수 0으로 초기화
             }
         }
