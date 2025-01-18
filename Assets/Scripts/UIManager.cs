@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     public GameObject Interact;
     public GameObject lifeGroup;
     public Image[] lifes;
+    public GameObject EndingGroup;
 
     void Awake()
     {
@@ -35,8 +36,10 @@ public class UIManager : MonoBehaviour
                 GameManager.instance.crowBattle = false;
                 SceneManager.LoadScene("MainRoad_ScareCrow2");
                 instance.lifeGroup.SetActive(false);
-                TalkData[] scareDialog2 = Reader.Read("scarecrow2.txt");
-                StartCoroutine(ShowDialogue(scareDialog2));
+
+                EndingGroup.SetActive(true);
+                // TalkData[] scareDialog2 = Reader.Read("scarecrow2.txt");
+                // StartCoroutine(ShowDialogue(scareDialog2));
                 break;
         }
     }
@@ -80,6 +83,11 @@ public class UIManager : MonoBehaviour
             SceneManager.LoadScene("FirstCutScene");
             titleSet.SetActive(false);
         }
+    }
+
+    public void GameExit()
+    {
+        Application.Quit();
     }
 
     public void LifeUpdate(int maxLife, int life, bool maxUpdate)

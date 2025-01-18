@@ -39,6 +39,11 @@ public class GameManager : MonoBehaviour // 게임 매니저, 게임의 전반�
 
     void Update()
     {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+
         if (_playerCtrl == null)
         {
             _playerCtrl = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMove>(); // 플레이어 찾기, 플레이어 오브젝트를 찾아 player에 저장

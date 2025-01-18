@@ -13,9 +13,11 @@ public class Reader
 {
     public static TalkData[] Read(string filename) // 대사 파일을 대사 구조 배열로 반환하는 정적 함수
     {
+        string path = Application.streamingAssetsPath + "/" + filename;
+
         List<TalkData> list = new List<TalkData>(); // 반환할 리스트 파일 생성
 
-        string[] lines = File.ReadAllLines(filename); // 줄마다 나눠서 배열로 저장
+        string[] lines = File.ReadAllLines(path); // 줄마다 나눠서 배열로 저장
 
         for (int i = 0; i < lines.Length; i++) // 줄마다 반복
         {

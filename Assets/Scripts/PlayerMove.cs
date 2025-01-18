@@ -122,11 +122,11 @@ public class PlayerMove : MonoBehaviour
             Debug.DrawRay(transform.position + Vector3.up, transform.forward * rayLength, Color.green);
             if (Physics.Raycast(transform.position + Vector3.up, transform.forward, out hit, rayLength, LayerMask.GetMask("Interact")))
             {
-                // UIManager.instance.Interact.SetActive(true); // 작동 안돼서
+                UIManager.instance.Interact.SetActive(true);
             }
             else
             {
-               // UIManager.instance.Interact.SetActive(false); // 작동 안돼서
+               UIManager.instance.Interact.SetActive(false);
             }
         }
     }
